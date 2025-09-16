@@ -248,6 +248,10 @@
             text-align: center;
             display: none;
         }
+        
+        .list-container {
+            display: none; /* Hide this duplicate list for cleaner code */
+        }
 
         @media (max-width: 768px) {
             header { font-size: 1.8em; padding: 20px; }
@@ -285,88 +289,40 @@
                     </tr>
                 </thead>
                 <tbody id="attendance-list">
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
 
     <div id="attendance-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h2>Isi Daftar Hadir</h2>
-        <div id="alert-message" class="alert"></div>
-        <form id="attendance-form">
-            <div class="form-group">
-                <label for="nama">Nama:</label>
-                <input type="text" id="nama" name="nama" required>
-            </div>
-            <div class="form-group">
-                <label for="hadir">Status Kehadiran:</label>
-                <select id="hadir" name="hadir">
-                    <option value="true">Hadir</option>
-                    <option value="false">Tidak Hadir</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="kontribusi">Kontribusi (Isi jika Hadir):</label>
-                <input type="text" id="kontribusi" name="kontribusi">
-            </div>
-            <button type="submit" class="submit-button">Kirim</button>
-        </form>
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Isi Daftar Hadir</h2>
+            <div id="alert-message" class="alert"></div>
+            <form id="attendance-form">
+                <div class="form-group">
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="hadir">Status Kehadiran:</label>
+                    <select id="hadir" name="hadir">
+                        <option value="true">Hadir</option>
+                        <option value="false">Tidak Hadir</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kontribusi">Kontribusi (Isi jika Hadir):</label>
+                    <input type="text" id="kontribusi" name="kontribusi">
+                </div>
+                <button type="submit" class="submit-button">Kirim</button>
+            </form>
+        </div>
     </div>
-</div>
-
-<div class="list-container">
-    <h2>Daftar Anggota</h2>
-    <ul>
-        <li>Dyraa Zyyy (Maredian)</li>
-        <li>Dward5612 (Graveth)</li>
-        <li>Khairil20101 (Euria)</li>
-        <li>ZEVL3371 (Euria)</li>
-        <li>MurindarJD (Euria)</li>
-        <li>Malll2528 (Graveth)</li>
-        <li>MyFrad (Euria)</li>
-        <li>AzazelKaisen (Euria)</li>
-        <li>Sofftya (Euria)</li>
-        <li>Simpasini123 (Euria)</li>
-        <li>Nohanniiel (Euria)</li>
-        <li>Myiyutrara (Meredian)</li>
-        <li>FuraChan7332 (Meredian)</li>
-        <li>MegaStars3545 (Maredian)</li>
-        <li>MotionAryXry (Euria)</li>
-        <li>KayzerVerst (Euria)</li>
-        <li>Kafein2912 (Graveth)</li>
-        <li>FossJett28 (Euria)</li>
-        <li>Nishrey21(Graveth)</li>
-        <li>Oyyfann (Euria)</li>
-        <li>Kaelmieayam (Euria)</li>
-        <li>Orangxsad163 (Euria)</li>
-        <li>aryaanwt (Graveth)</li>
-        <li>VivanXp14 (Euria)</li>
-        <li>adeyidd (Euria)</li>
-        <li>ReenaZrkn (Meredian)</li>
-        <li>Girinn24 (Euria)</li>
-        <li>TerPalMC (Euria)</li>
-        <li>ABYSSLIME (Graveth)</li>
-        <li>IzreyZrkn (Euria)</li>
-        <li>Primmbee (Maredian)</li>
-        <li>QueennnzMe (Euria)</li>
-        <li>CelCelxyh (Jawa)</li>
-        <li>CumiIsSquid (Euria)</li>
-        <li>Selyaku9017 (Euria)</li>
-        <li>Nohanniiel (Euria)</li>
-        <li>flow15k (Euria)</li>
-        <li>Sayurrayy (Euria)</li>
-        <li>Karrii556 (Euria)</li>
-        <li>Kairuu6095 (Euria)</li>
-        <li>Harvi4488 (Maradian)</li>
-    </ul>
-</div>
-
 
     <script>
         // Ganti URL ini dengan URL Webhook Discord Anda
-        const discordWebhookUrl = 'https://discord.com/api/webhooks/1396156282242859028/ZM8n_OjCGmnHhy1fd893TXOL0F4LJH_PLKsBre2SPoRZDccwY7Ew2iilYf2hxDfN5kN';
+        const discordWebhookUrl = 'https://discord.com/api/webhooks/1396156282242859028/ZM8n_OjCGmnHhy1fd893TXOLR0F4LJH_PLKsBre2SPoRZDccwY7Ew2iilYf2hxDfN5kN';
 
         const memberList = [
             { nama: 'Dyraa Zyyy', faction: 'Maredian' },
@@ -380,8 +336,8 @@
             { nama: 'Sofftya', faction: 'Euria' },
             { nama: 'Simpasini123', faction: 'Euria' },
             { nama: 'Nohanniiel', faction: 'Euria' },
-            { nama: 'Myiyutrara', faction: 'Maredian' },
-            { nama: 'FuraChan7332', faction: 'Maredian' },
+            { nama: 'Myiyutrara', faction: 'Meredian' },
+            { nama: 'FuraChan7332', faction: 'Meredian' },
             { nama: 'MegaStars3545', faction: 'Maredian' },
             { nama: 'MotionAryXry', faction: 'Euria' },
             { nama: 'KayzerVerst', faction: 'Euria' },
@@ -394,7 +350,7 @@
             { nama: 'aryaanwt', faction: 'Graveth' },
             { nama: 'VivanXp14', faction: 'Euria' },
             { nama: 'adeyidd', faction: 'Euria' },
-            { nama: 'ReenaZrkn', faction: 'Maredian' },
+            { nama: 'ReenaZrkn', faction: 'Meredian' },
             { nama: 'Girinn24', faction: 'Euria' },
             { nama: 'TerPalMC', faction: 'Euria' },
             { nama: 'ABYSSLIME', faction: 'Graveth' },
@@ -413,8 +369,9 @@
             { nama: 'Harvi4488', faction: 'Maredian' }
         ];
 
+        // Menggunakan Map untuk menyimpan data kehadiran.
         const attendanceData = new Map();
-        const submittedMembers = new Map();
+        const submittedMembers = new Map(); // Untuk melacak siapa yang sudah submit hari ini
 
         // Function to save data to localStorage
         function saveData() {
@@ -438,19 +395,21 @@
             }
         }
 
-        // Initialize and reset attendance data
         function initializeAttendance() {
+            // Load existing data first
             loadData();
-            
+
             // Check for daily reset
             const lastReset = localStorage.getItem('lastReset');
             const now = new Date();
             const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
             if (!lastReset || (now.getTime() - parseInt(lastReset) > oneDay)) {
-                // It's a new day, clear all submitted statuses
+                // It's a new day, clear all submitted statuses and attendance data
                 submittedMembers.clear();
+                attendanceData.clear();
                 localStorage.setItem('lastReset', now.getTime());
+                
                 // Reset attendance data for all members
                 memberList.forEach(member => {
                     attendanceData.set(member.nama.toLowerCase(), {
@@ -479,17 +438,15 @@
             }
             saveData();
         }
-
+        
         function renderTable() {
             const attendanceList = document.getElementById('attendance-list');
             let html = '';
-            
-            // Get all values from the Map
             let sortedData = Array.from(attendanceData.values()).sort((a, b) => {
                 // Sort by attendance status first (Hadir on top)
                 if (a.hadir && !b.hadir) return -1;
                 if (!a.hadir && b.hadir) return 1;
-                // Then sort alphabetically by name
+                // Then sort alphabetically
                 return a.nama.localeCompare(b.nama);
             });
 
@@ -522,7 +479,7 @@
         function sendToDiscord(member) {
             const status = member.hadir ? 'Hadir ✅' : 'Tidak Hadir ❌';
             const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : 'Tidak ada kontribusi';
-            const embedColor = member.hadir ? 65280 : 16711680;
+            const embedColor = member.hadir ? 65280 : 16711680; // Green or Red
             const timestampFormatted = new Date(member.timestamp).toLocaleString('id-ID');
 
             const payload = {
@@ -588,6 +545,8 @@
         const modal = document.getElementById('attendance-modal');
         const closeModalButton = document.querySelector('.close-button');
         const attendanceForm = document.getElementById('attendance-form');
+        const kontribusiInput = document.getElementById('kontribusi');
+        const hadirSelect = document.getElementById('hadir');
 
         openModalButton.addEventListener('click', () => {
             modal.style.display = 'block';
@@ -605,12 +564,21 @@
             }
         });
 
+        hadirSelect.addEventListener('change', (event) => {
+            if (event.target.value === 'false') {
+                kontribusiInput.value = '';
+                kontribusiInput.disabled = true;
+            } else {
+                kontribusiInput.disabled = false;
+            }
+        });
+
         attendanceForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
             const namaInput = document.getElementById('nama').value.trim();
-            const hadir = document.getElementById('hadir').value === 'true';
-            const kontribusi = document.getElementById('kontribusi').value.trim();
+            const hadir = hadirSelect.value === 'true';
+            const kontribusi = kontribusiInput.value.trim();
             const normalizedNama = namaInput.toLowerCase();
 
             const member = attendanceData.get(normalizedNama);
@@ -620,6 +588,12 @@
                 return;
             }
 
+            if (hadir && kontribusi === '') {
+                showAlert('Kolom kontribusi tidak boleh kosong jika status kehadiran "Hadir".');
+                return;
+            }
+            
+            // Periksa apakah anggota sudah mengisi hari ini
             const now = new Date();
             const lastSubmitted = submittedMembers.get(normalizedNama);
             const oneDay = 24 * 60 * 60 * 1000;
@@ -632,18 +606,24 @@
                 return;
             }
             
+            // Update data anggota
             member.hadir = hadir;
             member.kontribusi = hadir ? kontribusi : '';
-            member.timestamp = now.getTime();
+            member.timestamp = now.getTime(); // Simpan waktu pengisian
 
+            // Tandai anggota sudah submit hari ini
             submittedMembers.set(normalizedNama, now.getTime());
 
+            // Save data to localStorage
             saveData();
 
+            // Perbarui tampilan tabel
             renderTable();
 
+            // Kirim ke Discord
             sendToDiscord(member);
 
+            // Reset formulir dan tutup modal
             attendanceForm.reset();
             modal.style.display = 'none';
         });
@@ -652,6 +632,8 @@
             initializeAttendance();
             renderTable();
             createParticles();
+            // Ensure kontribusi input is initially not disabled
+            kontribusiInput.disabled = false;
         });
         
         function createParticles() {
