@@ -473,137 +473,306 @@
                         {
                             name: "Faction",
                             value: member.faction,
-                            inline: true
-                        },
-                        {
-                            name: "Waktu Pengisian",
-                            value: timestampFormatted,
-                            inline: false
-                        },
-                        {
-                            name: "Kontribusi",
-                            value: kontribusiText,
-                            inline: false
-                        }
-                    ],
-                    timestamp: new Date().toISOString(),
-                    footer: {
-                        text: "Sistem Daftar Hadir Astravell"
-                    }
-                }]
-            };
+<script>
+    // Ganti URL ini dengan URL Webhook Discord Anda
+    const discordWebhookUrl = 'https://discord.com/api/webhooks/1396156282242859028/ZM8n_OjCGmnHhy1fd893TXOLR0F4LJH_PLKsBre2SPoRZDccwY7Ew2iilYf2hxDfN5kN';
 
-            fetch(discordWebhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('Gagal mengirim ke Discord webhook:', response.statusText);
-                } else {
-                    console.log('Data berhasil dikirim ke Discord!');
-                }
-            })
-            .catch(error => {
-                console.error('Error saat mengirim ke Discord webhook:', error);
+    const memberList = [
+        { nama: 'Dyraa Zyyy', faction: 'Maredian' },
+        { nama: 'Dward5612', faction: 'Graveth' },
+        { nama: 'Khairil20101', faction: 'Euria' },
+        { nama: 'ZEVL3371', faction: 'Euria' },
+        { nama: 'MurindarJD', faction: 'Euria' },
+        { nama: 'Malll2528', faction: 'Graveth' },
+        { nama: 'MyFrad', faction: 'Euria' },
+        { nama: 'AzazelKaisen', faction: 'Euria' },
+        { nama: 'Sofftya', faction: 'Euria' },
+        { nama: 'Simpasini123', faction: 'Euria' },
+        { nama: 'Nohanniiel', faction: 'Euria' },
+        { nama: 'Myiyutrara', faction: 'Meredian' },
+        { nama: 'FuraChan7332', faction: 'Meredian' },
+        { nama: 'MegaStars3545', faction: 'Maredian' },
+        { nama: 'MotionAryXry', faction: 'Euria' },
+        { nama: 'KayzerVerst', faction: 'Euria' },
+        { nama: 'Kafein2912', faction: 'Graveth' },
+        { nama: 'FossJett28', faction: 'Euria' },
+        { nama: 'Nishrey21', faction: 'Graveth' },
+        { nama: 'Oyyfann', faction: 'Euria' },
+        { nama: 'Kaelmieayam', faction: 'Euria' },
+        { nama: 'Orangxsad163', faction: 'Euria' },
+        { nama: 'aryaanwt', faction: 'Graveth' },
+        { nama: 'VivanXp14', faction: 'Euria' },
+        { nama: 'adeyidd', faction: 'Euria' },
+        { nama: 'ReenaZrkn', faction: 'Meredian' },
+        { nama: 'Girinn24', faction: 'Euria' },
+        { nama: 'TerPalMC', faction: 'Euria' },
+        { nama: 'ABYSSLIME', faction: 'Graveth' },
+        { nama: 'IzreyZrkn', faction: 'Euria' },
+        { nama: 'Primmbee', faction: 'Maredian' },
+        { nama: 'QueennnzMe', faction: 'Euria' },
+        { nama: 'CelCelxyh', faction: 'Jawa' },
+        { nama: 'CumiIsSquid', faction: 'Euria' },
+        { nama: 'Selyaku9017', faction: 'Euria' },
+        { nama: 'flow15k', faction: 'Euria' },
+        { nama: 'Sayurrayy', faction: 'Euria' },
+        { nama: 'Karrii556', faction: 'Euria' },
+        { nama: 'Kairuu6095', faction: 'Euria' },
+        { nama: 'Zulfiqar', faction: 'Maredian' },
+        { nama: 'Xeeline', faction: 'Euria' },
+        { nama: 'Harvi4488', faction: 'Maredian' }
+    ];
+
+    const attendanceData = new Map();
+    const submittedMembers = new Map();
+
+    function saveData() {
+        localStorage.setItem('attendanceData', JSON.stringify(Array.from(attendanceData.entries())));
+        localStorage.setItem('submittedMembers', JSON.stringify(Array.from(submittedMembers.entries())));
+    }
+
+    function loadData() {
+        const savedAttendance = localStorage.getItem('attendanceData');
+        const savedSubmitted = localStorage.getItem('submittedMembers');
+        if (savedAttendance) {
+            new Map(JSON.parse(savedAttendance)).forEach((value, key) => {
+                attendanceData.set(key, value);
             });
         }
-
-        // --- Event Listeners and Main Logic ---
-        const openModalButton = document.getElementById('open-modal-button');
-        const modal = document.getElementById('attendance-modal');
-        const closeModalButton = document.querySelector('.close-button');
-        const attendanceForm = document.getElementById('attendance-form');
-
-        openModalButton.addEventListener('click', () => {
-            modal.style.display = 'block';
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            modal.style.display = 'none';
-            attendanceForm.reset();
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-                attendanceForm.reset();
-            }
-        });
-
-        attendanceForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const namaInput = document.getElementById('nama').value.trim();
-            const hadir = document.getElementById('hadir').value === 'true';
-            const kontribusi = document.getElementById('kontribusi').value.trim();
-            const normalizedNama = namaInput.toLowerCase();
-
-            const member = attendanceData.get(normalizedNama);
-
-            if (!member) {
-                showAlert('Nama yang Anda masukkan tidak terdaftar.');
-                return;
-            }
-
-            // Periksa apakah anggota sudah mengisi hari ini
-            const now = new Date();
-            const lastSubmitted = submittedMembers.get(normalizedNama);
-            const oneDay = 24 * 60 * 60 * 1000;
-
-            if (lastSubmitted && (now.getTime() - lastSubmitted < oneDay)) {
-                const remainingTime = lastSubmitted + oneDay - now.getTime();
-                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                showAlert(`Anda sudah mengisi hari ini. Silakan coba lagi dalam ${hours} jam dan ${minutes} menit.`);
-                return;
-            }
-            
-            // Update data anggota
-            member.hadir = hadir;
-            member.kontribusi = hadir ? kontribusi : '';
-            member.timestamp = now.getTime(); // Simpan waktu pengisian
-
-            // Tandai anggota sudah submit hari ini
-            submittedMembers.set(normalizedNama, now.getTime());
-
-            // Save data to localStorage
-            saveData();
-
-            // Perbarui tampilan tabel
-            renderTable();
-
-            // Kirim ke Discord
-            sendToDiscord(member);
-
-            // Reset formulir dan tutup modal
-            attendanceForm.reset();
-            modal.style.display = 'none';
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeAttendance();
-            renderTable();
-            createParticles();
-        });
-        
-        function createParticles() {
-            const total = 40;
-            for (let i = 0; i < total; i++) {
-                let star = document.createElement("div");
-                star.className = "particle";
-                let size = Math.random() * 2 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                document.body.appendChild(star);
-            }
+        if (savedSubmitted) {
+            new Map(JSON.parse(savedSubmitted)).forEach((value, key) => {
+                submittedMembers.set(key, value);
+            });
         }
-    </script>
+    }
+
+    function initializeAttendance() {
+        loadData();
+
+        // Check for daily reset
+        const lastReset = localStorage.getItem('lastReset');
+        const now = new Date();
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        if (!lastReset || (now.getTime() - parseInt(lastReset) > oneDay)) {
+            submittedMembers.clear();
+            localStorage.setItem('lastReset', now.getTime());
+            
+            // Re-initialize all members for the new day
+            memberList.forEach(member => {
+                const normalizedNama = member.nama.toLowerCase();
+                attendanceData.set(normalizedNama, {
+                    no: 0,
+                    nama: member.nama,
+                    faction: member.faction,
+                    hadir: false,
+                    kontribusi: '',
+                    timestamp: null
+                });
+            });
+        } else {
+            // If it's not a new day, just ensure all members are in the map
+            memberList.forEach(member => {
+                const normalizedNama = member.nama.toLowerCase();
+                if (!attendanceData.has(normalizedNama)) {
+                    attendanceData.set(normalizedNama, {
+                        no: 0,
+                        nama: member.nama,
+                        faction: member.faction,
+                        hadir: false,
+                        kontribusi: '',
+                        timestamp: null
+                    });
+                }
+            });
+        }
+    }
+    
+    function renderTable() {
+        const attendanceList = document.getElementById('attendance-list');
+        let html = '';
+        let sortedData = Array.from(attendanceData.values()).sort((a, b) => {
+            // Sort by attendance status first (Hadir on top)
+            if (a.hadir && !b.hadir) return -1;
+            if (!a.hadir && b.hadir) return 1;
+            // Then sort alphabetically
+            return a.nama.localeCompare(b.nama);
+        });
+
+        sortedData.forEach((row, index) => {
+            const presenceIcon = row.hadir ? `<svg class="presence-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>` : `<span class="absence-mark">—</span>`;
+            const timestampText = row.timestamp ? new Date(row.timestamp).toLocaleString('id-ID') : '—';
+            html += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${row.nama}</td>
+                    <td>${row.faction}</td>
+                    <td>${presenceIcon}</td>
+                    <td>${row.kontribusi || '—'}</td>
+                    <td>${timestampText}</td>
+                </tr>
+            `;
+        });
+        attendanceList.innerHTML = html;
+    }
+
+    function showAlert(message) {
+        const alertMessage = document.getElementById('alert-message');
+        alertMessage.textContent = message;
+        alertMessage.style.display = 'block';
+        setTimeout(() => {
+            alertMessage.style.display = 'none';
+        }, 3000);
+    }
+
+    function sendToDiscord(member) {
+        const status = member.hadir ? 'Hadir ✅' : 'Tidak Hadir ❌';
+        const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : 'Tidak ada kontribusi';
+        const embedColor = member.hadir ? 65280 : 16711680;
+        const timestampFormatted = new Date(member.timestamp).toLocaleString('id-ID');
+
+        const payload = {
+            embeds: [{
+                title: `Daftar Hadir Astravell`,
+                description: `Data kehadiran baru telah dicatat!`,
+                color: embedColor,
+                fields: [
+                    {
+                        name: "Nama",
+                        value: member.nama,
+                        inline: true
+                    },
+                    {
+                        name: "Status",
+                        value: status,
+                        inline: true
+                    },
+                    {
+                        name: "Faction",
+                        value: member.faction,
+                        inline: true
+                    },
+                    {
+                        name: "Waktu Pengisian",
+                        value: timestampFormatted,
+                        inline: false
+                    },
+                    {
+                        name: "Kontribusi",
+                        value: kontribusiText,
+                        inline: false
+                    }
+                ],
+                timestamp: new Date().toISOString(),
+                footer: {
+                    text: "Sistem Daftar Hadir Astravell"
+                }
+            }]
+        };
+
+        fetch(discordWebhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Gagal mengirim ke Discord webhook:', response.statusText);
+            } else {
+                console.log('Data berhasil dikirim ke Discord!');
+            }
+        })
+        .catch(error => {
+            console.error('Error saat mengirim ke Discord webhook:', error);
+        });
+    }
+
+    const openModalButton = document.getElementById('open-modal-button');
+    const modal = document.getElementById('attendance-modal');
+    const closeModalButton = document.querySelector('.close-button');
+    const attendanceForm = document.getElementById('attendance-form');
+
+    openModalButton.addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
+
+    closeModalButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+        attendanceForm.reset();
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+            attendanceForm.reset();
+        }
+    });
+
+    attendanceForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const namaInput = document.getElementById('nama').value.trim();
+        const hadir = document.getElementById('hadir').value === 'true';
+        const kontribusi = document.getElementById('kontribusi').value.trim();
+        const normalizedNama = namaInput.toLowerCase();
+
+        const member = attendanceData.get(normalizedNama);
+
+        if (!member) {
+            showAlert('Nama yang Anda masukkan tidak terdaftar.');
+            return;
+        }
+
+        const now = new Date();
+        const lastSubmitted = submittedMembers.get(normalizedNama);
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        if (lastSubmitted && (now.getTime() - lastSubmitted < oneDay)) {
+            const remainingTime = lastSubmitted + oneDay - now.getTime();
+            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            showAlert(`Anda sudah mengisi hari ini. Silakan coba lagi dalam ${hours} jam dan ${minutes} menit.`);
+            return;
+        }
+        
+        member.hadir = hadir;
+        member.kontribusi = hadir ? kontribusi : '';
+        member.timestamp = now.getTime();
+
+        submittedMembers.set(normalizedNama, now.getTime());
+
+        saveData();
+
+        renderTable();
+
+        sendToDiscord(member);
+
+        attendanceForm.reset();
+        modal.style.display = 'none';
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeAttendance();
+        renderTable();
+        createParticles();
+    });
+    
+    function createParticles() {
+        const total = 40;
+        for (let i = 0; i < total; i++) {
+            let star = document.createElement("div");
+            star.className = "particle";
+            let size = Math.random() * 2 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            document.body.appendChild(star);
+        }
+    }
+</script>
+
 </body>
 </html>
