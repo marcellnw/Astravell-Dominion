@@ -1,395 +1,655 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Hadir Astravell</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    /* ===== Variabel Warna ===== */
-    :root {
-      --dark-blue-primary: #0d1b2a;
-      --dark-blue-secondary: #1b263b;
-      --light-blue-accent: #6cace4;
-      --text-color: #e0f7fa;
-      --table-header-bg: rgba(45, 52, 54, 0.5);
-      --table-row-bg: rgba(255, 255, 255, 0.05);
-      --table-hover-bg: rgba(255, 255, 255, 0.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Hadir Astravell</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-blue-primary: #0d1b2a;
+            --dark-blue-secondary: #1b263b;
+            --light-blue-accent: #6cace4;
+            --text-color: #e0f7fa;
+            --table-header-bg: rgba(45, 52, 54, 0.5);
+            --table-row-bg: rgba(255, 255, 255, 0.05);
+            --table-hover-bg: rgba(255, 255, 255, 0.1);
+        }
 
-    body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(to bottom, var(--dark-blue-primary), var(--dark-blue-secondary));
-      color: var(--text-color);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-x: hidden;
-    }
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, var(--dark-blue-primary), var(--dark-blue-secondary));
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
 
-    header {
-      text-align: center;
-      padding: 30px 20px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.2em;
-      font-weight: 700;
-      color: var(--light-blue-accent);
-      text-shadow: 0 0 10px var(--light-blue-accent);
-    }
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--light-blue-accent);
+            text-shadow: 0 0 10px var(--light-blue-accent);
+        }
 
-    header svg {
-      width: 30px;
-      height: 30px;
-      fill: currentColor;
-      vertical-align: middle;
-      margin: 0 5px;
-    }
+        header svg {
+            width: 30px;
+            height: 30px;
+            fill: currentColor;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
 
-    .container {
-      width: 95%;
-      max-width: 900px;
-      margin-top: 20px;
-    }
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
 
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
 
-    .action-button {
-      background-color: var(--light-blue-accent);
-      border: none;
-      color: var(--dark-blue-secondary);
-      padding: 12px 24px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1em;
-      font-weight: 700;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 15px rgba(108, 172, 228, 0.4);
-    }
+        .action-button {
+            background-color: var(--light-blue-accent);
+            border: none;
+            color: var(--dark-blue-secondary);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 172, 228, 0.4);
+        }
 
-    .action-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(108, 172, 228, 0.6);
-    }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 172, 228, 0.6);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 500px;
+            overflow-y: auto;
+        }
 
-    .table-container {
-      overflow-x: auto;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      max-height: 500px;
-      overflow-y: auto;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
 
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    }
+        th {
+            background: var(--table-header-bg);
+            color: #cce7ff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            position: sticky;
+            top: 0;
+        }
 
-    th {
-      background: var(--table-header-bg);
-      color: #cce7ff;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.9em;
-      position: sticky;
-      top: 0;
-    }
+        tbody tr:hover {
+            background: var(--table-hover-bg);
+        }
 
-    tbody tr:hover {
-      background: var(--table-hover-bg);
-    }
+        .presence-icon {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            fill: #00ff99;
+        }
+        
+        .absence-mark {
+            color: #ff4d4d;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
 
-    .presence-icon {
-      width: 20px;
-      height: 20px;
-      vertical-align: middle;
-      fill: #00ff99;
-    }
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: twinkle 4s infinite ease-in-out;
+            box-shadow: 0 0 4px white;
+            opacity: 0;
+            z-index: -1;
+        }
 
-    .absence-mark {
-      color: #ff4d4d;
-      font-size: 1.5em;
-      font-weight: bold;
-    }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
 
-    /* Partikel bintang */
-    .particle {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: twinkle 4s infinite ease-in-out;
-      box-shadow: 0 0 4px white;
-      opacity: 0;
-      z-index: -1;
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 60px;
+        }
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0; transform: scale(0.5); }
-      50% { opacity: 1; transform: scale(1); }
-    }
+        .modal-content {
+            background-color: var(--dark-blue-secondary);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--light-blue-accent);
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+        
+        @keyframes animatetop {
+            from { top: -300px; opacity: 0; }
+            to { top: 5%; opacity: 1; }
+        }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding-top: 60px;
-    }
+        .close-button {
+            color: var(--light-blue-accent);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
 
-    .modal-content {
-      background-color: var(--dark-blue-secondary);
-      margin: 5% auto;
-      padding: 30px;
-      border-radius: 10px;
-      border: 1px solid var(--light-blue-accent);
-      width: 80%;
-      max-width: 500px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-      animation-name: animatetop;
-      animation-duration: 0.4s;
-    }
+        .close-button:hover,
+        .close-button:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-    @keyframes animatetop {
-      from { top: -300px; opacity: 0; }
-      to { top: 5%; opacity: 1; }
-    }
+        .modal-content h2 {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light-blue-accent);
+            margin-bottom: 20px;
+        }
 
-    .close-button {
-      color: var(--light-blue-accent);
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    .close-button:hover { color: #fff; cursor: pointer; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
 
-    .modal-content h2 {
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      color: var(--light-blue-accent);
-      margin-bottom: 20px;
-    }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-blue-accent);
+            background-color: transparent;
+            color: var(--text-color);
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
 
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--light-blue-accent);
-      background-color: transparent;
-      color: var(--text-color);
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    .submit-button {
-      width: 100%;
-      background-color: var(--light-blue-accent);
-      color: var(--dark-blue-secondary);
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1em;
-      font-weight: 700;
-    }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #fff;
+        }
+        
+        .submit-button {
+            width: 100%;
+            background-color: var(--light-blue-accent);
+            color: var(--dark-blue-secondary);
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
 
-    .alert {
-      background-color: #f44336;
-      color: white;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      text-align: center;
-      display: none;
-    }
+        .submit-button:hover {
+            background-color: #aee1f9;
+        }
+        
+        .alert {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .list-container {
+            display: none; /* Hide this duplicate list for cleaner code */
+        }
 
-    @media (max-width: 768px) {
-      header { font-size: 1.8em; padding: 20px; }
-      th, td { padding: 10px; font-size: 0.85em; }
-      .action-button { padding: 10px 20px; font-size: 0.9em; }
-    }
-  </style>
+        @media (max-width: 768px) {
+            header { font-size: 1.8em; padding: 20px; }
+            th, td { padding: 10px; font-size: 0.85em; }
+            .action-button { padding: 10px 20px; font-size: 0.9em; }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
-    </svg>
-    Daftar Hadir Astravell
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M12 2c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1V3c0-.55-.45-1-1-1z"/>
-    </svg>
-  </header>
+    <header>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zM12 4a8 8 0 0 1 7.74 5.92 6 6 0 1 0-7.46-7.46A8 8 0 0 1 12 4z"/>
+        </svg>
+        Daftar Hadir Astravell
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1V3c0-.55-.45-1-1-1zm0 16c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zm6.71-15.3a.996.996 0 0 0-1.41 0l-2.83 2.83c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l2.83-2.83c.39-.39.39-1.02 0-1.41zm-13.42 0a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l2.83 2.83c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41zM22 12c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1zM7.29 18.71a.996.996 0 0 0 1.41 0c.39-.39.39-1.02 0-1.41l-2.83-2.83c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41zM16.71 18.71a.996.996 0 0 0 1.41 0c.39-.39.39-1.02 0-1.41l-2.83-2.83c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41zM3 12c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1z"/>
+        </svg>
+    </header>
 
-  <!-- Kontainer -->
-  <div class="container">
-    <div class="controls">
-      <button class="action-button" id="open-modal-button">Isi Daftar Hadir</button>
-    </div>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>Faction</th>
-            <th>Hadir</th>
-            <th>Kontribusi</th>
-            <th>Waktu Pengisian</th>
-          </tr>
-        </thead>
-        <tbody id="attendance-list"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Modal Form -->
-  <div id="attendance-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button">&times;</span>
-      <h2>Isi Daftar Hadir</h2>
-      <div id="alert-message" class="alert"></div>
-      <form id="attendance-form">
-        <div class="form-group">
-          <label for="nama">Nama:</label>
-          <input type="text" id="nama" name="nama" required>
+    <div class="container">
+        <div class="controls">
+            <button class="action-button" id="open-modal-button">Isi Daftar Hadir</button>
         </div>
-        <div class="form-group">
-          <label for="hadir">Status Kehadiran:</label>
-          <select id="hadir" name="hadir">
-            <option value="true">Hadir</option>
-            <option value="false">Tidak Hadir</option>
-          </select>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Faction</th>
+                        <th>Hadir</th>
+                        <th>Kontribusi</th>
+                        <th>Waktu Pengisian</th>
+                    </tr>
+                </thead>
+                <tbody id="attendance-list">
+                </tbody>
+            </table>
         </div>
-        <div class="form-group">
-          <label for="kontribusi">Kontribusi (Isi jika Hadir):</label>
-          <input type="text" id="kontribusi" name="kontribusi">
-        </div>
-        <button type="submit" class="submit-button">Kirim</button>
-      </form>
     </div>
-  </div>
 
-  <!-- Script -->
-  <script>
-    const discordWebhookUrl = 'ISI_WEBHOOK_DISCORD_KAMU_DI_SINI';
+    <div id="attendance-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Isi Daftar Hadir</h2>
+            <div id="alert-message" class="alert"></div>
+            <form id="attendance-form">
+                <div class="form-group">
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="hadir">Status Kehadiran:</label>
+                    <select id="hadir" name="hadir">
+                        <option value="true">Hadir</option>
+                        <option value="false">Tidak Hadir</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kontribusi">Kontribusi (Isi jika Hadir):</label>
+                    <input type="text" id="kontribusi" name="kontribusi">
+                </div>
+                <button type="submit" class="submit-button">Kirim</button>
+            </form>
+        </div>
+    </div>
 
-    const memberList = [
-      { nama: 'Dyraa Zyyy', faction: 'Maredian' },
-      { nama: 'Dward5612', faction: 'Graveth' },
-      { nama: 'Khairil20101', faction: 'Euria' },
-      { nama: 'ZEVL3371', faction: 'Euria' },
-      // ... (lanjut semua nama dari list kamu)
-      { nama: 'Harvi4488', faction: 'Maredian' }
-    ];
+    <script>
+        // Ganti URL ini dengan URL Webhook Discord Anda
+        const discordWebhookUrl = 'https://discord.com/api/webhooks/1396156282242859028/ZM8n_OjCGmnHhy1fd893TXOLR0F4LJH_PLKsBre2SPoRZDccwY7Ew2iilYf2hxDfN5kN';
 
-    const attendanceData = new Map();
-    const submittedMembers = new Map();
+        const memberList = [
+            { nama: 'Dyraa Zyyy', faction: 'Maredian' },
+            { nama: 'Dward5612', faction: 'Graveth' },
+            { nama: 'Khairil20101', faction: 'Euria' },
+            { nama: 'ZEVL3371', faction: 'Euria' },
+            { nama: 'MurindarJD', faction: 'Euria' },
+            { nama: 'Malll2528', faction: 'Graveth' },
+            { nama: 'MyFrad', faction: 'Euria' },
+            { nama: 'AzazelKaisen', faction: 'Euria' },
+            { nama: 'Sofftya', faction: 'Euria' },
+            { nama: 'Simpasini123', faction: 'Euria' },
+            { nama: 'Nohanniiel', faction: 'Euria' },
+            { nama: 'Myiyutrara', faction: 'Meredian' },
+            { nama: 'FuraChan7332', faction: 'Meredian' },
+            { nama: 'MegaStars3545', faction: 'Maredian' },
+            { nama: 'MotionAryXry', faction: 'Euria' },
+            { nama: 'KayzerVerst', faction: 'Euria' },
+            { nama: 'Kafein2912', faction: 'Graveth' },
+            { nama: 'FossJett28', faction: 'Euria' },
+            { nama: 'Nishrey21', faction: 'Graveth' },
+            { nama: 'Oyyfann', faction: 'Euria' },
+            { nama: 'Kaelmieayam', faction: 'Euria' },
+            { nama: 'Orangxsad163', faction: 'Euria' },
+            { nama: 'aryaanwt', faction: 'Graveth' },
+            { nama: 'VivanXp14', faction: 'Euria' },
+            { nama: 'adeyidd', faction: 'Euria' },
+            { nama: 'ReenaZrkn', faction: 'Meredian' },
+            { nama: 'Girinn24', faction: 'Euria' },
+            { nama: 'TerPalMC', faction: 'Euria' },
+            { nama: 'ABYSSLIME', faction: 'Graveth' },
+            { nama: 'IzreyZrkn', faction: 'Euria' },
+            { nama: 'Primmbee', faction: 'Maredian' },
+            { nama: 'QueennnzMe', faction: 'Euria' },
+            { nama: 'CelCelxyh', faction: 'Jawa' },
+            { nama: 'CumiIsSquid', faction: 'Euria' },
+            { nama: 'Selyaku9017', faction: 'Euria' },
+            { nama: 'flow15k', faction: 'Euria' },
+            { nama: 'Sayurrayy', faction: 'Euria' },
+            { nama: 'Karrii556', faction: 'Euria' },
+            { nama: 'Kairuu6095', faction: 'Euria' },
+            { nama: 'Zulfiqar', faction: 'Maredian' },
+            { nama: 'Xeeline', faction: 'Euria' },
+            { nama: 'Harvi4488', faction: 'Maredian' }
+        ];
 
-    function saveData() {
-      localStorage.setItem('attendanceData', JSON.stringify(Array.from(attendanceData.entries())));
-      localStorage.setItem('submittedMembers', JSON.stringify(Array.from(submittedMembers.entries())));
-    }
-    function loadData() {
-      const savedAttendance = localStorage.getItem('attendanceData');
-      const savedSubmitted = localStorage.getItem('submittedMembers');
-      if (savedAttendance) new Map(JSON.parse(savedAttendance)).forEach((v, k) => attendanceData.set(k, v));
-      if (savedSubmitted) new Map(JSON.parse(savedSubmitted)).forEach((v, k) => submittedMembers.set(k, v));
-    }
+        // Menggunakan Map untuk menyimpan data kehadiran.
+        const attendanceData = new Map();
+        const submittedMembers = new Map(); // Untuk melacak siapa yang sudah submit hari ini
 
-    function initializeAttendance() {
-      loadData();
-      memberList.forEach(member => {
-        const key = member.nama.toLowerCase();
-        if (!attendanceData.has(key)) {
-          attendanceData.set(key, {
-            nama: member.nama,
-            faction: member.faction,
-            hadir: false,
-            kontribusi: '',
-            timestamp: null
-          });
+        // Function to save data to localStorage
+        function saveData() {
+            localStorage.setItem('attendanceData', JSON.stringify(Array.from(attendanceData.entries())));
+            localStorage.setItem('submittedMembers', JSON.stringify(Array.from(submittedMembers.entries())));
         }
-      });
-    }
 
-    function renderTable() {
-      const tbody = document.getElementById('attendance-list');
-      let html = '';
-      let sorted = Array.from(attendanceData.values()).sort((a,b)=> a.hadir === b.hadir ? a.nama.localeCompare(b.nama) : b.hadir - a.hadir);
-      sorted.forEach((row,i)=>{
-        const icon = row.hadir ? `<svg class="presence-icon" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>` : `<span class="absence-mark">—</span>`;
-        const time = row.timestamp ? new Date(row.timestamp).toLocaleString('id-ID') : '—';
-        html += `<tr>
-          <td>${i+1}</td><td>${row.nama}</td><td>${row.faction}</td>
-          <td>${icon}</td><td>${row.kontribusi||'—'}</td><td>${time}</td>
-        </tr>`;
-      });
-      tbody.innerHTML = html;
-    }
+        // Function to load data from localStorage
+        function loadData() {
+            const savedAttendance = localStorage.getItem('attendanceData');
+            const savedSubmitted = localStorage.getItem('submittedMembers');
+            if (savedAttendance) {
+                new Map(JSON.parse(savedAttendance)).forEach((value, key) => {
+                    attendanceData.set(key, value);
+                });
+            }
+            if (savedSubmitted) {
+                new Map(JSON.parse(savedSubmitted)).forEach((value, key) => {
+                    submittedMembers.set(key, value);
+                });
+            }
+        }
 
-    function showAlert(msg){
-      const a = document.getElementById('alert-message');
-      a.textContent = msg; a.style.display='block';
-      setTimeout(()=>a.style.display='none',3000);
-    }
+        function initializeAttendance() {
+            // Load existing data first
+            loadData();
 
-    function sendToDiscord(member){
-      const payload = { content: `📋 Kehadiran dicatat: **${member.nama}** (${member.faction}) | Status: ${member.hadir?'✅ Hadir':'❌ Tidak Hadir'} | Kontribusi: ${member.kontribusi||'—'}` };
-      fetch(discordWebhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    }
+            // Check for daily reset
+            const lastReset = localStorage.getItem('lastReset');
+            const now = new Date();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-    document.getElementById('open-modal-button').onclick = ()=> document.getElementById('attendance-modal').style.display='block';
-    document.querySelector('.close-button').onclick = ()=> document.getElementById('attendance-modal').style.display='none';
-    window.onclick = (e)=>{ if(e.target==document.getElementById('attendance-modal')) document.getElementById('attendance-modal').style.display='none'; };
+            if (!lastReset || (now.getTime() - parseInt(lastReset) > oneDay)) {
+                // It's a new day, clear all submitted statuses and attendance data
+                submittedMembers.clear();
+                attendanceData.clear();
+                localStorage.setItem('lastReset', now.getTime());
+                
+                // Reset attendance data for all members
+                memberList.forEach(member => {
+                    attendanceData.set(member.nama.toLowerCase(), {
+                        no: 0,
+                        nama: member.nama,
+                        faction: member.faction,
+                        hadir: false,
+                        kontribusi: '',
+                        timestamp: null
+                    });
+                });
+            } else {
+                // If it's not a new day, just ensure all members from the list exist in the map
+                memberList.forEach(member => {
+                    if (!attendanceData.has(member.nama.toLowerCase())) {
+                        attendanceData.set(member.nama.toLowerCase(), {
+                            no: 0,
+                            nama: member.nama,
+                            faction: member.faction,
+                            hadir: false,
+                            kontribusi: '',
+                            timestamp: null
+                        });
+                    }
+                });
+            }
+            saveData();
+        }
+        
+        function renderTable() {
+            const attendanceList = document.getElementById('attendance-list');
+            let html = '';
+            let sortedData = Array.from(attendanceData.values()).sort((a, b) => {
+                // Sort by attendance status first (Hadir on top)
+                if (a.hadir && !b.hadir) return -1;
+                if (!a.hadir && b.hadir) return 1;
+                // Then sort alphabetically
+                return a.nama.localeCompare(b.nama);
+            });
 
-    document.getElementById('attendance-form').onsubmit=(e)=>{
-      e.preventDefault();
-      const nama=document.getElementById('nama').value.trim();
-      const hadir=document.getElementById('hadir').value==='true';
-      const kontribusi=document.getElementById('kontribusi').value.trim();
-      const key=nama.toLowerCase();
-      const m=attendanceData.get(key);
-      if(!m){showAlert('Nama tidak terdaftar');return;}
-      const now=new Date();
-      const last=submittedMembers.get(key);
-      if(last && now.getTime()-last < 86400000){ showAlert('Anda sudah mengisi hari ini'); return;}
-      m.hadir=hadir; m.kontribusi=hadir?kontribusi:''; m.timestamp=now.getTime();
-      submittedMembers.set(key, now.getTime());
-      saveData(); renderTable(); sendToDiscord(m);
-      e.target.reset(); document.getElementById('attendance-modal').style.display='none';
-    }
+            sortedData.forEach((row, index) => {
+                const presenceIcon = row.hadir ? `<svg class="presence-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>` : `<span class="absence-mark">—</span>`;
+                const timestampText = row.timestamp ? new Date(row.timestamp).toLocaleString('id-ID') : '—';
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${row.nama}</td>
+                        <td>${row.faction}</td>
+                        <td>${presenceIcon}</td>
+                        <td>${row.kontribusi || '—'}</td>
+                        <td>${timestampText}</td>
+                    </tr>
+                `;
+            });
+            attendanceList.innerHTML = html;
+        }
 
-    document.addEventListener('DOMContentLoaded',()=>{
-      initializeAttendance(); renderTable();
-      for(let i=0;i<40;i++){ let s=document.createElement("div"); s.className="particle"; let size=Math.random()*2+1; s.style.width=size+"px"; s.style.height=size+"px"; s.style.top=Math.random()*100+"%"; s.style.left=Math.random()*100+"%"; s.style.animationDuration=(Math.random()*3+2)+"s"; document.body.appendChild(s);}
-    });
-  </script>
+        function showAlert(message) {
+            const alertMessage = document.getElementById('alert-message');
+            alertMessage.textContent = message;
+            alertMessage.style.display = 'block';
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function sendToDiscord(member) {
+            const status = member.hadir ? 'Hadir ✅' : 'Tidak Hadir ❌';
+            const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : 'Tidak ada kontribusi';
+            const embedColor = member.hadir ? 65280 : 16711680; // Green or Red
+            const timestampFormatted = new Date(member.timestamp).toLocaleString('id-ID');
+
+            const payload = {
+                embeds: [{
+                    title: `Daftar Hadir Astravell`,
+                    description: `Data kehadiran baru telah dicatat!`,
+                    color: embedColor,
+                    fields: [
+                        {
+                            name: "Nama",
+                            value: member.nama,
+                            inline: true
+                        },
+                        {
+                            name: "Status",
+                            value: status,
+                            inline: true
+                        },
+                        {
+                            name: "Faction",
+                            value: member.faction,
+                            inline: true
+                        },
+                        {
+                            name: "Waktu Pengisian",
+                            value: timestampFormatted,
+                            inline: false
+                        },
+                        {
+                            name: "Kontribusi",
+                            value: kontribusiText,
+                            inline: false
+                        }
+                    ],
+                    timestamp: new Date().toISOString(),
+                    footer: {
+                        text: "Sistem Daftar Hadir Astravell"
+                    }
+                }]
+            };
+
+            fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Gagal mengirim ke Discord webhook:', response.statusText);
+                } else {
+                    console.log('Data berhasil dikirim ke Discord!');
+                }
+            })
+            .catch(error => {
+                console.error('Error saat mengirim ke Discord webhook:', error);
+            });
+        }
+
+        // --- Event Listeners and Main Logic ---
+        const openModalButton = document.getElementById('open-modal-button');
+        const modal = document.getElementById('attendance-modal');
+        const closeModalButton = document.querySelector('.close-button');
+        const attendanceForm = document.getElementById('attendance-form');
+        const kontribusiInput = document.getElementById('kontribusi');
+        const hadirSelect = document.getElementById('hadir');
+
+        openModalButton.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+            attendanceForm.reset();
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+                attendanceForm.reset();
+            }
+        });
+
+        hadirSelect.addEventListener('change', (event) => {
+            if (event.target.value === 'false') {
+                kontribusiInput.value = '';
+                kontribusiInput.disabled = true;
+            } else {
+                kontribusiInput.disabled = false;
+            }
+        });
+
+        attendanceForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const namaInput = document.getElementById('nama').value.trim();
+            const hadir = hadirSelect.value === 'true';
+            const kontribusi = kontribusiInput.value.trim();
+            const normalizedNama = namaInput.toLowerCase();
+
+            const member = attendanceData.get(normalizedNama);
+
+            if (!member) {
+                showAlert('Nama yang Anda masukkan tidak terdaftar.');
+                return;
+            }
+
+            if (hadir && kontribusi === '') {
+                showAlert('Kolom kontribusi tidak boleh kosong jika status kehadiran "Hadir".');
+                return;
+            }
+            
+            // Periksa apakah anggota sudah mengisi hari ini
+            const now = new Date();
+            const lastSubmitted = submittedMembers.get(normalizedNama);
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            if (lastSubmitted && (now.getTime() - lastSubmitted < oneDay)) {
+                const remainingTime = lastSubmitted + oneDay - now.getTime();
+                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                showAlert(`Anda sudah mengisi hari ini. Silakan coba lagi dalam ${hours} jam dan ${minutes} menit.`);
+                return;
+            }
+            
+            // Update data anggota
+            member.hadir = hadir;
+            member.kontribusi = hadir ? kontribusi : '';
+            member.timestamp = now.getTime(); // Simpan waktu pengisian
+
+            // Tandai anggota sudah submit hari ini
+            submittedMembers.set(normalizedNama, now.getTime());
+
+            // Save data to localStorage
+            saveData();
+
+            // Perbarui tampilan tabel
+            renderTable();
+
+            // Kirim ke Discord
+            sendToDiscord(member);
+
+            // Reset formulir dan tutup modal
+            attendanceForm.reset();
+            modal.style.display = 'none';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAttendance();
+            renderTable();
+            createParticles();
+            // Ensure kontribusi input is initially not disabled
+            kontribusiInput.disabled = false;
+        });
+        
+        function createParticles() {
+            const total = 40;
+            for (let i = 0; i < total; i++) {
+                let star = document.createElement("div");
+                star.className = "particle";
+                let size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(star);
+            }
+        }
+    </script>
 </body>
 </html>
