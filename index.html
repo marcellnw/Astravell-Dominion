@@ -248,10 +248,6 @@
             text-align: center;
             display: none;
         }
-        
-        .list-container {
-            display: none; /* Hide this duplicate list for cleaner code */
-        }
 
         @media (max-width: 768px) {
             header { font-size: 1.8em; padding: 20px; }
@@ -289,7 +285,7 @@
                     </tr>
                 </thead>
                 <tbody id="attendance-list">
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
@@ -399,44 +395,20 @@
             // Load existing data first
             loadData();
 
-            // Check for daily reset
-            const lastReset = localStorage.getItem('lastReset');
-            const now = new Date();
-            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-            if (!lastReset || (now.getTime() - parseInt(lastReset) > oneDay)) {
-                // It's a new day, clear all submitted statuses and attendance data
-                submittedMembers.clear();
-                attendanceData.clear();
-                localStorage.setItem('lastReset', now.getTime());
-                
-                // Reset attendance data for all members
-                memberList.forEach(member => {
-                    attendanceData.set(member.nama.toLowerCase(), {
+            // Populate with member list if data doesn't exist or is outdated
+            memberList.forEach(member => {
+                const normalizedNama = member.nama.toLowerCase();
+                if (!attendanceData.has(normalizedNama)) {
+                    attendanceData.set(normalizedNama, {
                         no: 0,
-                        nama: member.nama,
+                        nama: member.nama, // Corrected line
                         faction: member.faction,
                         hadir: false,
                         kontribusi: '',
                         timestamp: null
                     });
-                });
-            } else {
-                // If it's not a new day, just ensure all members from the list exist in the map
-                memberList.forEach(member => {
-                    if (!attendanceData.has(member.nama.toLowerCase())) {
-                        attendanceData.set(member.nama.toLowerCase(), {
-                            no: 0,
-                            nama: member.nama,
-                            faction: member.faction,
-                            hadir: false,
-                            kontribusi: '',
-                            timestamp: null
-                        });
-                    }
-                });
-            }
-            saveData();
+                }
+            });
         }
         
         function renderTable() {
@@ -545,8 +517,6 @@
         const modal = document.getElementById('attendance-modal');
         const closeModalButton = document.querySelector('.close-button');
         const attendanceForm = document.getElementById('attendance-form');
-        const kontribusiInput = document.getElementById('kontribusi');
-        const hadirSelect = document.getElementById('hadir');
 
         openModalButton.addEventListener('click', () => {
             modal.style.display = 'block';
@@ -564,21 +534,12 @@
             }
         });
 
-        hadirSelect.addEventListener('change', (event) => {
-            if (event.target.value === 'false') {
-                kontribusiInput.value = '';
-                kontribusiInput.disabled = true;
-            } else {
-                kontribusiInput.disabled = false;
-            }
-        });
-
         attendanceForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
             const namaInput = document.getElementById('nama').value.trim();
-            const hadir = hadirSelect.value === 'true';
-            const kontribusi = kontribusiInput.value.trim();
+            const hadir = document.getElementById('hadir').value === 'true';
+            const kontribusi = document.getElementById('kontribusi').value.trim();
             const normalizedNama = namaInput.toLowerCase();
 
             const member = attendanceData.get(normalizedNama);
@@ -588,11 +549,6 @@
                 return;
             }
 
-            if (hadir && kontribusi === '') {
-                showAlert('Kolom kontribusi tidak boleh kosong jika status kehadiran "Hadir".');
-                return;
-            }
-            
             // Periksa apakah anggota sudah mengisi hari ini
             const now = new Date();
             const lastSubmitted = submittedMembers.get(normalizedNama);
@@ -632,8 +588,6 @@
             initializeAttendance();
             renderTable();
             createParticles();
-            // Ensure kontribusi input is initially not disabled
-            kontribusiInput.disabled = false;
         });
         
         function createParticles() {
