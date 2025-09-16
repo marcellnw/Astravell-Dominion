@@ -119,11 +119,11 @@
             width: 20px;
             height: 20px;
             vertical-align: middle;
-            fill: #00ff99; /* Warna untuk icon hadir */
+            fill: #00ff99;
         }
         
         .absence-mark {
-            color: #ff4d4d; /* Warna untuk tanda tidak hadir */
+            color: #ff4d4d;
             font-size: 1.5em;
             font-weight: bold;
         }
@@ -281,6 +281,7 @@
                         <th>Faction</th>
                         <th>Hadir</th>
                         <th>Kontribusi</th>
+                        <th>Waktu Pengisian</th>
                     </tr>
                 </thead>
                 <tbody id="attendance-list">
@@ -364,58 +365,45 @@
             { nama: 'Jokowi', faction: 'Graveth' }
         ];
 
-        let attendanceData = [];
+        // Menggunakan Map untuk menyimpan data kehadiran. Ini lebih efisien untuk pencarian.
+        // Data tidak akan disimpan jika browser ditutup.
+        const attendanceData = new Map();
+        const submittedMembers = new Map(); // Untuk melacak siapa yang sudah submit hari ini
 
-        const attendanceList = document.getElementById('attendance-list');
-        const openModalButton = document.getElementById('open-modal-button');
-        const modal = document.getElementById('attendance-modal');
-        const closeModalButton = document.querySelector('.close-button');
-        const attendanceForm = document.getElementById('attendance-form');
-        const alertMessage = document.getElementById('alert-message');
-
-        function loadAttendanceData() {
-            const lastReset = localStorage.getItem('lastReset');
-            const now = new Date().getTime();
-            const dayInMs = 24 * 60 * 60 * 1000;
-
-            if (lastReset && (now - lastReset > dayInMs)) {
-                // Jika sudah lebih dari 24 jam, reset data
-                resetAttendanceData();
-            } else {
-                // Jika belum 24 jam, coba muat dari local storage
-                const savedData = localStorage.getItem('attendanceData');
-                if (savedData) {
-                    attendanceData = JSON.parse(savedData);
-                } else {
-                    // Jika belum ada data, inisialisasi dari daftar anggota
-                    resetAttendanceData();
-                }
-            }
+        function initializeAttendance() {
+            memberList.forEach(member => {
+                attendanceData.set(member.nama.toLowerCase(), {
+                    no: 0, // Akan diisi saat render
+                    nama: member.nama,
+                    faction: member.faction,
+                    hadir: false,
+                    kontribusi: '',
+                    timestamp: null
+                });
+            });
         }
-
-        function resetAttendanceData() {
-            attendanceData = memberList.map((member, index) => ({
-                no: index + 1,
-                nama: member.nama,
-                faction: member.faction,
-                hadir: false,
-                kontribusi: ''
-            }));
-            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
-            localStorage.setItem('lastReset', new Date().getTime());
-        }
-
+        
         function renderTable() {
+            const attendanceList = document.getElementById('attendance-list');
             let html = '';
-            attendanceData.forEach(row => {
-                const presenceIcon = row.hadir ? `<svg class="presence-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>` : '<span class="absence-mark">—</span>';
+            let sortedData = Array.from(attendanceData.values()).sort((a, b) => a.no - b.no);
+
+            // Jika ada yang sudah mengisi, pindahkan ke atas
+            const submittedEntries = sortedData.filter(m => m.hadir);
+            const notSubmittedEntries = sortedData.filter(m => !m.hadir);
+            sortedData = [...submittedEntries, ...notSubmittedEntries];
+
+            sortedData.forEach((row, index) => {
+                const presenceIcon = row.hadir ? `<svg class="presence-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>` : `<span class="absence-mark">—</span>`;
+                const timestampText = row.timestamp ? new Date(row.timestamp).toLocaleString('id-ID') : '—';
                 html += `
                     <tr>
-                        <td>${row.no}</td>
+                        <td>${index + 1}</td>
                         <td>${row.nama}</td>
                         <td>${row.faction}</td>
                         <td>${presenceIcon}</td>
                         <td>${row.kontribusi || '—'}</td>
+                        <td>${timestampText}</td>
                     </tr>
                 `;
             });
@@ -423,6 +411,7 @@
         }
 
         function showAlert(message) {
+            const alertMessage = document.getElementById('alert-message');
             alertMessage.textContent = message;
             alertMessage.style.display = 'block';
             setTimeout(() => {
@@ -430,16 +419,16 @@
             }, 3000);
         }
 
-        // Fungsi baru untuk mengirim data ke Discord
         function sendToDiscord(member) {
-            const status = member.hadir ? 'Hadir' : 'Tidak Hadir';
+            const status = member.hadir ? 'Hadir ✅' : 'Tidak Hadir ❌';
             const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : '';
-            const embedColor = member.hadir ? 65280 : 16711680; // Hijau atau Merah
+            const embedColor = member.hadir ? 65280 : 16711680; // Green or Red
+            const timestampFormatted = new Date(member.timestamp).toLocaleString('id-ID');
 
             const payload = {
                 embeds: [{
-                    title: `Daftar Hadir Hari Ini`,
-                    description: `Daftar kehadiran baru telah dicatat.`,
+                    title: `Daftar Hadir Astravell`,
+                    description: `Data kehadiran baru telah dicatat!`,
                     color: embedColor,
                     fields: [
                         {
@@ -456,6 +445,11 @@
                             name: "Faction",
                             value: member.faction,
                             inline: true
+                        },
+                        {
+                            name: "Waktu Pengisian",
+                            value: timestampFormatted,
+                            inline: false
                         },
                         {
                             name: "Kontribusi",
@@ -489,17 +483,25 @@
             });
         }
 
+        // --- Event Listeners and Main Logic ---
+        const openModalButton = document.getElementById('open-modal-button');
+        const modal = document.getElementById('attendance-modal');
+        const closeModalButton = document.querySelector('.close-button');
+        const attendanceForm = document.getElementById('attendance-form');
+
         openModalButton.addEventListener('click', () => {
             modal.style.display = 'block';
         });
 
         closeModalButton.addEventListener('click', () => {
             modal.style.display = 'none';
+            attendanceForm.reset();
         });
 
         window.addEventListener('click', (event) => {
             if (event.target == modal) {
                 modal.style.display = 'none';
+                attendanceForm.reset();
             }
         });
 
@@ -509,41 +511,41 @@
             const namaInput = document.getElementById('nama').value.trim();
             const hadir = document.getElementById('hadir').value === 'true';
             const kontribusi = document.getElementById('kontribusi').value.trim();
+            const normalizedNama = namaInput.toLowerCase();
 
-            const memberIndex = attendanceData.findIndex(
-                m => m.nama.toLowerCase() === namaInput.toLowerCase()
-            );
+            const member = attendanceData.get(normalizedNama);
 
-            if (memberIndex === -1) {
+            if (!member) {
                 showAlert('Nama yang Anda masukkan tidak terdaftar.');
                 return;
             }
 
-            const member = attendanceData[memberIndex];
+            // Periksa apakah anggota sudah mengisi hari ini
+            const now = new Date();
+            const lastSubmitted = submittedMembers.get(normalizedNama);
+            const oneDay = 24 * 60 * 60 * 1000;
 
-            // Cek jika status kehadiran yang dipilih sama dengan status saat ini
-            if (member.hadir === hadir && member.kontribusi === kontribusi) {
-                showAlert('Data kehadiran Anda sudah tercatat.');
+            if (lastSubmitted && (now.getTime() - lastSubmitted < oneDay)) {
+                const remainingTime = lastSubmitted + oneDay - now.getTime();
+                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                showAlert(`Anda sudah mengisi hari ini. Silakan coba lagi dalam ${hours} jam dan ${minutes} menit.`);
                 return;
             }
             
-            // Simpan data lama sebelum diperbarui
-            const oldMemberData = {...member};
-
-            // Perbarui data anggota
+            // Update data anggota
             member.hadir = hadir;
             member.kontribusi = hadir ? kontribusi : '';
+            member.timestamp = now.getTime(); // Simpan waktu pengisian
 
-            // Jika ada perubahan, kirim ke Discord
-            if (oldMemberData.hadir !== member.hadir || oldMemberData.kontribusi !== member.kontribusi) {
-                sendToDiscord(member);
-            }
-
-            // Simpan perubahan ke Local Storage
-            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+            // Tandai anggota sudah submit hari ini
+            submittedMembers.set(normalizedNama, now.getTime());
 
             // Perbarui tampilan tabel
             renderTable();
+
+            // Kirim ke Discord
+            sendToDiscord(member);
 
             // Reset formulir dan tutup modal
             attendanceForm.reset();
@@ -551,7 +553,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadAttendanceData();
+            initializeAttendance();
             renderTable();
             createParticles();
         });
