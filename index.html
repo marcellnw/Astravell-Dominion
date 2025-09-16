@@ -316,6 +316,9 @@
     </div>
 
     <script>
+        // Ganti URL ini dengan URL Webhook Discord Anda
+        const discordWebhookUrl = 'https://discord.com/api/webhooks/1396156282242859028/ZM8n_OjCGmnHhy1fd893TXOLR0F4LJH_PLKsBre2SPoRZDccwY7Ew2iilYf2hxDfN5kN';
+
         const memberList = [
             { nama: 'Dyraa Zyyy', faction: 'Maredian' },
             { nama: 'Dward5612', faction: 'Graveth' },
@@ -427,6 +430,65 @@
             }, 3000);
         }
 
+        // Fungsi baru untuk mengirim data ke Discord
+        function sendToDiscord(member) {
+            const status = member.hadir ? 'Hadir' : 'Tidak Hadir';
+            const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : '';
+            const embedColor = member.hadir ? 65280 : 16711680; // Hijau atau Merah
+
+            const payload = {
+                embeds: [{
+                    title: `Daftar Hadir Hari Ini`,
+                    description: `Daftar kehadiran baru telah dicatat.`,
+                    color: embedColor,
+                    fields: [
+                        {
+                            name: "Nama",
+                            value: member.nama,
+                            inline: true
+                        },
+                        {
+                            name: "Status",
+                            value: status,
+                            inline: true
+                        },
+                        {
+                            name: "Faction",
+                            value: member.faction,
+                            inline: true
+                        },
+                        {
+                            name: "Kontribusi",
+                            value: member.kontribusi || "Tidak ada kontribusi",
+                            inline: false
+                        }
+                    ],
+                    timestamp: new Date().toISOString(),
+                    footer: {
+                        text: "Sistem Daftar Hadir Astravell"
+                    }
+                }]
+            };
+
+            fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Gagal mengirim ke Discord webhook:', response.statusText);
+                } else {
+                    console.log('Data berhasil dikirim ke Discord!');
+                }
+            })
+            .catch(error => {
+                console.error('Error saat mengirim ke Discord webhook:', error);
+            });
+        }
+
         openModalButton.addEventListener('click', () => {
             modal.style.display = 'block';
         });
@@ -464,10 +526,18 @@
                 showAlert('Data kehadiran Anda sudah tercatat.');
                 return;
             }
+            
+            // Simpan data lama sebelum diperbarui
+            const oldMemberData = {...member};
 
             // Perbarui data anggota
             member.hadir = hadir;
             member.kontribusi = hadir ? kontribusi : '';
+
+            // Jika ada perubahan, kirim ke Discord
+            if (oldMemberData.hadir !== member.hadir || oldMemberData.kontribusi !== member.kontribusi) {
+                sendToDiscord(member);
+            }
 
             // Simpan perubahan ke Local Storage
             localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
