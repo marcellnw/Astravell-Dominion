@@ -365,7 +365,6 @@
             { nama: 'Harvi4488', faction: 'Maredian' }
         ];
 
-        // Menggunakan Map untuk menyimpan data kehadiran.
         const attendanceData = new Map();
         const submittedMembers = new Map();
 
@@ -391,26 +390,22 @@
             }
         }
 
+        // Initialize and reset attendance data
         function initializeAttendance() {
-            // Load existing data first
             loadData();
-
+            
             // Check for daily reset
             const lastReset = localStorage.getItem('lastReset');
             const now = new Date();
-            const oneDay = 24 * 60 * 60 * 1000;
+            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
             if (!lastReset || (now.getTime() - parseInt(lastReset) > oneDay)) {
                 // It's a new day, clear all submitted statuses
                 submittedMembers.clear();
                 localStorage.setItem('lastReset', now.getTime());
-            }
-
-            // Populate with member list
-            memberList.forEach(member => {
-                const normalizedNama = member.nama.toLowerCase();
-                if (!attendanceData.has(normalizedNama)) {
-                    attendanceData.set(normalizedNama, {
+                // Reset attendance data for all members
+                memberList.forEach(member => {
+                    attendanceData.set(member.nama.toLowerCase(), {
                         no: 0,
                         nama: member.nama,
                         faction: member.faction,
@@ -418,19 +413,35 @@
                         kontribusi: '',
                         timestamp: null
                     });
-                }
-            });
+                });
+            } else {
+                // If it's not a new day, just ensure all members from the list exist in the map
+                memberList.forEach(member => {
+                    if (!attendanceData.has(member.nama.toLowerCase())) {
+                        attendanceData.set(member.nama.toLowerCase(), {
+                            no: 0,
+                            nama: member.nama,
+                            faction: member.faction,
+                            hadir: false,
+                            kontribusi: '',
+                            timestamp: null
+                        });
+                    }
+                });
+            }
             saveData();
         }
-        
+
         function renderTable() {
             const attendanceList = document.getElementById('attendance-list');
             let html = '';
+            
+            // Get all values from the Map
             let sortedData = Array.from(attendanceData.values()).sort((a, b) => {
                 // Sort by attendance status first (Hadir on top)
                 if (a.hadir && !b.hadir) return -1;
                 if (!a.hadir && b.hadir) return 1;
-                // Then sort alphabetically
+                // Then sort alphabetically by name
                 return a.nama.localeCompare(b.nama);
             });
 
@@ -463,7 +474,7 @@
         function sendToDiscord(member) {
             const status = member.hadir ? 'Hadir ✅' : 'Tidak Hadir ❌';
             const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : 'Tidak ada kontribusi';
-            const embedColor = member.hadir ? 65280 : 16711680; // Green or Red
+            const embedColor = member.hadir ? 65280 : 16711680;
             const timestampFormatted = new Date(member.timestamp).toLocaleString('id-ID');
 
             const payload = {
@@ -561,7 +572,6 @@
                 return;
             }
 
-            // Periksa apakah anggota sudah mengisi hari ini
             const now = new Date();
             const lastSubmitted = submittedMembers.get(normalizedNama);
             const oneDay = 24 * 60 * 60 * 1000;
@@ -574,24 +584,18 @@
                 return;
             }
             
-            // Update data anggota
             member.hadir = hadir;
             member.kontribusi = hadir ? kontribusi : '';
-            member.timestamp = now.getTime(); // Simpan waktu pengisian
+            member.timestamp = now.getTime();
 
-            // Tandai anggota sudah submit hari ini
             submittedMembers.set(normalizedNama, now.getTime());
 
-            // Save data to localStorage
             saveData();
 
-            // Perbarui tampilan tabel
             renderTable();
 
-            // Kirim ke Discord
             sendToDiscord(member);
 
-            // Reset formulir dan tutup modal
             attendanceForm.reset();
             modal.style.display = 'none';
         });
