@@ -3,653 +3,580 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Hadir Astravell</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <title>Astravell Dominion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --dark-blue-primary: #0d1b2a;
-            --dark-blue-secondary: #1b263b;
-            --light-blue-accent: #6cace4;
-            --text-color: #e0f7fa;
-            --table-header-bg: rgba(45, 52, 54, 0.5);
-            --table-row-bg: rgba(255, 255, 255, 0.05);
-            --table-hover-bg: rgba(255, 255, 255, 0.1);
-        }
-
+        /* Global Styles */
         body {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, var(--dark-blue-primary), var(--dark-blue-secondary));
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
+            padding: 0;
+            background-color: #000080; /* Navy Blue */
+            color: #FFFFFF; /* White */
+            overflow-x: hidden; /* Prevent horizontal scroll from particles */
+            position: relative;
         }
 
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.2em;
-            font-weight: 700;
-            color: var(--light-blue-accent);
-            text-shadow: 0 0 10px var(--light-blue-accent);
-        }
-
-        header svg {
-            width: 30px;
-            height: 30px;
-            fill: currentColor;
-            vertical-align: middle;
-            margin: 0 5px;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 900px;
-            margin-top: 20px;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .action-button {
-            background-color: var(--light-blue-accent);
-            border: none;
-            color: var(--dark-blue-secondary);
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 700;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(108, 172, 228, 0.4);
-        }
-
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(108, 172, 228, 0.6);
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        th {
-            background: var(--table-header-bg);
-            color: #cce7ff;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            position: sticky;
-            top: 0;
-        }
-
-        tbody tr:hover {
-            background: var(--table-hover-bg);
-        }
-
-        .presence-icon {
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-            fill: #00ff99;
-        }
-        
-        .absence-mark {
-            color: #ff4d4d;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .particle {
+        /* Particle Background */
+        #particles-js {
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: twinkle 4s infinite ease-in-out;
-            box-shadow: 0 0 4px white;
-            opacity: 0;
-            z-index: -1;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding-top: 60px;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Place behind content */
+            background-color: #000080; /* Fallback for browsers that don't support particles */
         }
 
-        .modal-content {
-            background-color: var(--dark-blue-secondary);
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 10px;
-            border: 1px solid var(--light-blue-accent);
-            width: 80%;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            animation-name: animatetop;
-            animation-duration: 0.4s;
-        }
-        
-        @keyframes animatetop {
-            from { top: -300px; opacity: 0; }
-            to { top: 5%; opacity: 1; }
+        /* Header */
+        header {
+            background-color: rgba(0, 0, 128, 0.8); /* Semi-transparent Navy */
+            color: #FFFFFF;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #CE9B01; /* Gold */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            animation: slideInDown 0.8s ease-out;
         }
 
-        .close-button {
-            color: var(--light-blue-accent);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            transition: color 0.3s ease;
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        .close-button:hover,
-        .close-button:focus {
-            color: #fff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .modal-content h2 {
-            text-align: center;
-            font-family: 'Montserrat', sans-serif;
-            color: var(--light-blue-accent);
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--light-blue-accent);
-            background-color: transparent;
-            color: var(--text-color);
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #fff;
-        }
-        
-        .submit-button {
-            width: 100%;
-            background-color: var(--light-blue-accent);
-            color: var(--dark-blue-secondary);
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
+        header .logo {
+            font-size: 1.8rem;
             font-weight: 700;
-            transition: background-color 0.3s ease;
+            color: #CE9B01; /* Gold */
+            display: flex;
+            align-items: center;
+        }
+        header .logo svg {
+            margin-right: 10px;
+            fill: #CE9B01;
+            width: 30px;
+            height: 30px;
         }
 
-        .submit-button:hover {
-            background-color: #aee1f9;
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
         }
-        
-        .alert {
-            background-color: #f44336;
-            color: white;
-            padding: 10px;
-            margin-bottom: 15px;
+
+        nav ul li a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            transition: color 0.3s, background-color 0.3s;
             border-radius: 5px;
-            text-align: center;
-            display: none;
-        }
-        
-        .list-container {
-            display: none; /* Hide this duplicate list for cleaner code */
+            display: flex;
+            align-items: center;
         }
 
+        nav ul li a:hover {
+            color: #CE9B01; /* Gold */
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        nav ul li a svg {
+            margin-right: 8px;
+            fill: #FFFFFF;
+            width: 18px;
+            height: 18px;
+            transition: fill 0.3s;
+        }
+        nav ul li a:hover svg {
+            fill: #CE9B01;
+        }
+
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+        }
+
+        .menu-toggle .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem;
+            position: relative;
+            z-index: 1; /* Ensure content is above particles */
+        }
+
+        section {
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            background-color: rgba(0, 0, 77, 0.7); /* Slightly darker, semi-transparent Navy */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        section:nth-child(even) { animation-delay: 0.3s; }
+        section:nth-child(odd) { animation-delay: 0.6s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #CE9B01; /* Gold */
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: scaleIn 1s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #CE9B01; /* Gold */
+            border-bottom: 3px solid #CE9B01;
+            padding-bottom: 0.7rem;
+            margin: 0 2rem 2rem 2rem;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* Card Styles */
+        .project-card, .building-card, .job-card {
+            background-color: rgba(0, 0, 128, 0.9); /* More opaque Navy */
+            padding: 1.5rem;
+            margin: 1rem 2rem;
+            border-left: 6px solid #CE9B01; /* Gold border */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            animation: slideInLeft 0.7s ease-out forwards;
+            opacity: 0;
+        }
+        .project-card:hover, .building-card:hover, .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .project-card:nth-child(even), .building-card:nth-child(even), .job-card:nth-child(even) { animation-delay: 0.2s; }
+        .project-card:nth-child(odd), .building-card:nth-child(odd), .job-card:nth-child(odd) { animation-delay: 0.4s; }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .project-card h3, .building-card h3, .job-card h3 {
+            color: #CE9B01; /* Gold */
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        .project-card p, .job-card p {
+            color: #DDDDDD;
+            margin: 0.2rem 0;
+            font-size: 1rem;
+        }
+
+        .farm-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .farm-list li {
+            background-color: rgba(0, 0, 128, 0.9);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #CE9B01;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+            animation: slideInRight 0.7s ease-out forwards;
+            opacity: 0;
+        }
+        .farm-list li:hover {
+            transform: translateX(5px);
+        }
+        .farm-list li:nth-child(even) { animation-delay: 0.1s; }
+        .farm-list li:nth-child(odd) { animation-delay: 0.3s; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #00004d; /* Darker Navy */
+            border-top: 2px solid #CE9B01; /* Gold */
+            color: #DDDDDD;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 1s; /* Ensure it appears last */
+            opacity: 0;
+        }
+
+        /* Responsive Styles */
         @media (max-width: 768px) {
-            header { font-size: 1.8em; padding: 20px; }
-            th, td { padding: 10px; font-size: 0.85em; }
-            .action-button { padding: 10px 20px; font-size: 0.9em; }
+            header {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+            header .logo {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+            nav {
+                width: 100%;
+                display: none; /* Hide nav by default on mobile */
+                flex-direction: column;
+                background-color: rgba(0, 0, 128, 0.95);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+            }
+            nav.open {
+                display: flex; /* Show nav when open */
+            }
+            nav ul {
+                flex-direction: column;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            .menu-toggle {
+                display: flex; /* Show burger icon on mobile */
+                position: absolute;
+                right: 20px;
+                top: 25px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+                margin: 0 1rem 1.5rem 1rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            section {
+                padding: 1.5rem 0;
+            }
+            .project-card, .building-card, .job-card, .farm-list ul {
+                margin: 1rem 1rem;
+            }
+            .farm-list ul {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+
+    <div id="particles-js"></div>
+
     <header>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zM12 4a8 8 0 0 1 7.74 5.92 6 6 0 1 0-7.46-7.46A8 8 0 0 1 12 4z"/>
-        </svg>
-        Daftar Hadir Astravell
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 2c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1V3c0-.55-.45-1-1-1zm0 16c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zm6.71-15.3a.996.996 0 0 0-1.41 0l-2.83 2.83c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l2.83-2.83c.39-.39.39-1.02 0-1.41zm-13.42 0a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l2.83 2.83c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41zM22 12c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1zM7.29 18.71a.996.996 0 0 0 1.41 0c.39-.39.39-1.02 0-1.41l-2.83-2.83c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41zM16.71 18.71a.996.996 0 0 0 1.41 0c.39-.39.39-1.02 0-1.41l-2.83-2.83c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41zM3 12c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1z"/>
-        </svg>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L14.5 7L20 8L16 12.5L17 18L12 15.5L7 18L8 12.5L4 8L9.5 7L12 2Z"/>
+            </svg>
+            Astravell Dominion
+        </div>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#hero">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69ZM12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                    Beranda
+                </a></li>
+                <li><a href="#proyek-berjalan">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2H6C4.89 2 4 2.89 4 4V20C4 21.11 4.89 22 6 22H18C19.11 22 20 21.11 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM13 14H6V16H13V14Z"/>
+                    </svg>
+                    Proyek Berjalan
+                </a></li>
+                <li><a href="#farm-manual">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 15V13H9V15H7V13H5V15H3V7H21V15H13V13H15V15H17V13H19V15H21V7H3V15H11Z"/>
+                    </svg>
+                    Farm Manual
+                </a></li>
+                <li><a href="#bangunan">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H21L12 3L3 12H5V20H19V12ZM7 18H9V12H7V18ZM11 18H13V12H11V18ZM15 18H17V12H15V18Z"/>
+                    </svg>
+                    Proyek Bangunan
+                </a></li>
+                <li><a href="#pekerjaan">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6H16V4C16 2.9 15.1 2 14 2H10C8.9 2 8 2.9 8 4V6H4C2.9 6 2 6.9 2 8V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V8C22 6.9 21.1 6 20 6ZM10 4H14V6H10V4ZM20 19H4V8H20V19Z"/>
+                    </svg>
+                    Pekerjaan
+                </a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="controls">
-            <button class="action-button" id="open-modal-button">Isi Daftar Hadir</button>
-        </div>
+    <main>
+        <section id="hero">
+            <h1>Selamat Datang di Astravell Dominion</h1>
+            <p>Jurnal proyek, petualangan, dan pencapaian kami.</p>
+        </section>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Faction</th>
-                        <th>Hadir</th>
-                        <th>Kontribusi</th>
-                        <th>Waktu Pengisian</th>
-                    </tr>
-                </thead>
-                <tbody id="attendance-list">
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <section id="proyek-berjalan">
+            <h2>Proyek yang Sedang Berjalan</h2>
+            <div class="project-card">
+                <h3>Ratain gunung</h3>
+                <p>Status: 20%</p>
+            </div>
+            <div class="project-card">
+                <h3>Desa Hobbit</h3>
+                <p>Status: 0%</p>
+            </div>
+            <div class="project-card">
+                <h3>Desa Peri</h3>
+                <p>Status: 0%</p>
+            </div>
+        </section>
 
-    <div id="attendance-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Isi Daftar Hadir</h2>
-            <div id="alert-message" class="alert"></div>
-            <form id="attendance-form">
-                <div class="form-group">
-                    <label for="nama">Nama:</label>
-                    <input type="text" id="nama" name="nama" required>
-                </div>
-                <div class="form-group">
-                    <label for="hadir">Status Kehadiran:</label>
-                    <select id="hadir" name="hadir">
-                        <option value="true">Hadir</option>
-                        <option value="false">Tidak Hadir</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="kontribusi">Kontribusi (Isi jika Hadir):</label>
-                    <input type="text" id="kontribusi" name="kontribusi">
-                </div>
-                <button type="submit" class="submit-button">Kirim</button>
-            </form>
-        </div>
-    </div>
+        <section id="farm-manual">
+            <h2>Manual Pertanian</h2>
+            <div class="farm-list">
+                <ul>
+                    <li>Farm wheat ✓</li>
+                    <li>Farm Sheep ✓</li>
+                    <li>Farm Cow ✓</li>
+                    <li>Farm Sugar cane ✓</li>
+                    <li>Farm Pumpkin/melon ✓</li>
+                    <li>Farm bambu</li>
+                    <li>Farm bee</li>
+                    <li>Storage umum ✓</li>
+                </ul>
+            </div>
+        </section>
 
+        <section id="bangunan">
+            <h2>Proyek Bangunan</h2>
+            <div class="building-card">
+                <h3>Jembatan</h3>
+            </div>
+            <div class="building-card">
+                <h3>Kastil</h3>
+            </div>
+            <div class="building-card">
+                <h3>Desa Hobbit</h3>
+            </div>
+            <div class="building-card">
+                <h3>Desa Peri</h3>
+            </div>
+            <div class="building-card">
+                <h3>Jalan ke desa-desa</h3>
+            </div>
+        </section>
+
+        <section id="pekerjaan">
+            <h2>Pekerjaan & Jabatan</h2>
+            <div class="job-list">
+                <div class="job-card">
+                    <h3>Farmer</h3>
+                    <p>Tugas: Stok makanan</p>
+                    <p>Status: Kerjakan</p>
+                </div>
+                <div class="job-card">
+                    <h3>Trader</h3>
+                    <p>Tugas: Stok enchant book</p>
+                    <p>Status: Jika sudah bisa</p>
+                </div>
+                <div class="job-card">
+                    <h3>Blacksmith</h3>
+                    <p>Tugas: Stok tools & armor</p>
+                    <p>Status: Sumbangkan iron</p>
+                </div>
+                <div class="job-card">
+                    <h3>Alchemist</h3>
+                    <p>Tugas: Stok potion</p>
+                    <p>Status: Jika sudah bisa</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Astravell Dominion. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
-        // Ganti URL ini dengan URL Webhook Discord Anda
-        const discordWebhookUrl = 'https://discord.com/api/webhooks/1396156282242859028/ZM8n_OjCGmnHhy1fd893TXOLR0F4LJH_PLKsBre2SPoRZDccwY7Ew2iilYf2hxDfN5kN';
-
-        const memberList = [
-            { nama: 'Dyraa Zyyy', faction: 'Maredian' },
-            { nama: 'Dward5612', faction: 'Graveth' },
-            { nama: 'Khairil20101', faction: 'Euria' },
-            { nama: 'ZEVL3371', faction: 'Euria' },
-            { nama: 'MurindarJD', faction: 'Euria' },
-            { nama: 'Malll2528', faction: 'Graveth' },
-            { nama: 'MyFrad', faction: 'Euria' },
-            { nama: 'AzazelKaisen', faction: 'Euria' },
-            { nama: 'Sofftya', faction: 'Euria' },
-            { nama: 'Simpasini123', faction: 'Euria' },
-            { nama: 'Nohanniiel', faction: 'Euria' },
-            { nama: 'Myiyutrara', faction: 'Meredian' },
-            { nama: 'FuraChan7332', faction: 'Meredian' },
-            { nama: 'MegaStars3545', faction: 'Maredian' },
-            { nama: 'MotionAryXry', faction: 'Euria' },
-            { nama: 'KayzerVerst', faction: 'Euria' },
-            { nama: 'Kafein2912', faction: 'Graveth' },
-            { nama: 'FossJett28', faction: 'Euria' },
-            { nama: 'Nishrey21', faction: 'Graveth' },
-            { nama: 'Oyyfann', faction: 'Euria' },
-            { nama: 'Kaelmieayam', faction: 'Euria' },
-            { nama: 'Orangxsad163', faction: 'Euria' },
-            { nama: 'aryaanwt', faction: 'Graveth' },
-            { nama: 'VivanXp14', faction: 'Euria' },
-            { nama: 'adeyidd', faction: 'Euria' },
-            { nama: 'ReenaZrkn', faction: 'Meredian' },
-            { nama: 'Girinn24', faction: 'Euria' },
-            { nama: 'TerPalMC', faction: 'Euria' },
-            { nama: 'ABYSSLIME', faction: 'Graveth' },
-            { nama: 'IzreyZrkn', faction: 'Euria' },
-            { nama: 'Primmbee', faction: 'Maredian' },
-            { nama: 'QueennnzMe', faction: 'Euria' },
-            { nama: 'CelCelxyh', faction: 'Jawa' },
-            { nama: 'CumiIsSquid', faction: 'Euria' },
-            { nama: 'Selyaku9017', faction: 'Euria' },
-            { nama: 'flow15k', faction: 'Euria' },
-            { nama: 'Sayurrayy', faction: 'Euria' },
-            { nama: 'Karrii556', faction: 'Euria' },
-            { nama: 'Kairuu6095', faction: 'Euria' },
-            { nama: 'Zulfiqar', faction: 'Maredian' },
-            { nama: 'Xeeline', faction: 'Euria' },
-            { nama: 'Harvi4488', faction: 'Maredian' }
-        ];
-
-        // Menggunakan Map untuk menyimpan data kehadiran.
-        const attendanceData = new Map();
-        const submittedMembers = new Map(); // Untuk melacak siapa yang sudah submit hari ini
-
-        // Function to save data to localStorage
-        function saveData() {
-            localStorage.setItem('attendanceData', JSON.stringify(Array.from(attendanceData.entries())));
-            localStorage.setItem('submittedMembers', JSON.stringify(Array.from(submittedMembers.entries())));
-        }
-
-        // Function to load data from localStorage
-        function loadData() {
-            const savedAttendance = localStorage.getItem('attendanceData');
-            const savedSubmitted = localStorage.getItem('submittedMembers');
-            if (savedAttendance) {
-                new Map(JSON.parse(savedAttendance)).forEach((value, key) => {
-                    attendanceData.set(key, value);
-                });
-            }
-            if (savedSubmitted) {
-                new Map(JSON.parse(savedSubmitted)).forEach((value, key) => {
-                    submittedMembers.set(key, value);
-                });
-            }
-        }
-
-        function initializeAttendance() {
-            // Load existing data first
-            loadData();
-
-            // Check for daily reset
-            const lastReset = localStorage.getItem('lastReset');
-            const now = new Date();
-            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-            if (!lastReset || (now.getTime() - parseInt(lastReset) > oneDay)) {
-                // It's a new day, clear all submitted statuses and attendance data
-                submittedMembers.clear();
-                attendanceData.clear();
-                localStorage.setItem('lastReset', now.getTime());
-                
-                // Reset attendance data for all members
-                memberList.forEach(member => {
-                    attendanceData.set(member.nama.toLowerCase(), {
-                        no: 0,
-                        nama: member.nama,
-                        faction: member.faction,
-                        hadir: false,
-                        kontribusi: '',
-                        timestamp: null
-                    });
-                });
-            } else {
-                // If it's not a new day, just ensure all members from the list exist in the map
-                memberList.forEach(member => {
-                    if (!attendanceData.has(member.nama.toLowerCase())) {
-                        attendanceData.set(member.nama.toLowerCase(), {
-                            no: 0,
-                            nama: member.nama,
-                            faction: member.faction,
-                            hadir: false,
-                            kontribusi: '',
-                            timestamp: null
-                        });
+        /* Particles.js Initialization */
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
                     }
-                });
-            }
-            saveData();
-        }
-        
-        function renderTable() {
-            const attendanceList = document.getElementById('attendance-list');
-            let html = '';
-            let sortedData = Array.from(attendanceData.values()).sort((a, b) => {
-                // Sort by attendance status first (Hadir on top)
-                if (a.hadir && !b.hadir) return -1;
-                if (!a.hadir && b.hadir) return 1;
-                // Then sort alphabetically
-                return a.nama.localeCompare(b.nama);
-            });
-
-            sortedData.forEach((row, index) => {
-                const presenceIcon = row.hadir ? `<svg class="presence-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>` : `<span class="absence-mark">—</span>`;
-                const timestampText = row.timestamp ? new Date(row.timestamp).toLocaleString('id-ID') : '—';
-                html += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${row.nama}</td>
-                        <td>${row.faction}</td>
-                        <td>${presenceIcon}</td>
-                        <td>${row.kontribusi || '—'}</td>
-                        <td>${timestampText}</td>
-                    </tr>
-                `;
-            });
-            attendanceList.innerHTML = html;
-        }
-
-        function showAlert(message) {
-            const alertMessage = document.getElementById('alert-message');
-            alertMessage.textContent = message;
-            alertMessage.style.display = 'block';
-            setTimeout(() => {
-                alertMessage.style.display = 'none';
-            }, 3000);
-        }
-
-        function sendToDiscord(member) {
-            const status = member.hadir ? 'Hadir ✅' : 'Tidak Hadir ❌';
-            const kontribusiText = member.kontribusi ? `**Kontribusi:** ${member.kontribusi}` : 'Tidak ada kontribusi';
-            const embedColor = member.hadir ? 65280 : 16711680; // Green or Red
-            const timestampFormatted = new Date(member.timestamp).toLocaleString('id-ID');
-
-            const payload = {
-                embeds: [{
-                    title: `Daftar Hadir Astravell`,
-                    description: `Data kehadiran baru telah dicatat!`,
-                    color: embedColor,
-                    fields: [
-                        {
-                            name: "Nama",
-                            value: member.nama,
-                            inline: true
-                        },
-                        {
-                            name: "Status",
-                            value: status,
-                            inline: true
-                        },
-                        {
-                            name: "Faction",
-                            value: member.faction,
-                            inline: true
-                        },
-                        {
-                            name: "Waktu Pengisian",
-                            value: timestampFormatted,
-                            inline: false
-                        },
-                        {
-                            name: "Kontribusi",
-                            value: kontribusiText,
-                            inline: false
-                        }
-                    ],
-                    timestamp: new Date().toISOString(),
-                    footer: {
-                        text: "Sistem Daftar Hadir Astravell"
-                    }
-                }]
-            };
-
-            fetch(discordWebhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('Gagal mengirim ke Discord webhook:', response.statusText);
-                } else {
-                    console.log('Data berhasil dikirim ke Discord!');
+                "color": {
+                    "value": "#CE9B01" /* Gold particles */
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#CE9B01"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#CE9B01", /* Gold lines */
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
                 }
-            })
-            .catch(error => {
-                console.error('Error saat mengirim ke Discord webhook:', error);
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        /* Mobile Menu Toggle */
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            var nav = document.getElementById('main-nav');
+            nav.classList.toggle('open');
+        });
+
+        // Close mobile nav when a link is clicked
+        document.querySelectorAll('#main-nav a').forEach(item => {
+            item.addEventListener('click', function() {
+                var nav = document.getElementById('main-nav');
+                if (nav.classList.contains('open')) {
+                    nav.classList.remove('open');
+                }
             });
-        }
-
-        // --- Event Listeners and Main Logic ---
-        const openModalButton = document.getElementById('open-modal-button');
-        const modal = document.getElementById('attendance-modal');
-        const closeModalButton = document.querySelector('.close-button');
-        const attendanceForm = document.getElementById('attendance-form');
-        const kontribusiInput = document.getElementById('kontribusi');
-        const hadirSelect = document.getElementById('hadir');
-
-        openModalButton.addEventListener('click', () => {
-            modal.style.display = 'block';
         });
-
-        closeModalButton.addEventListener('click', () => {
-            modal.style.display = 'none';
-            attendanceForm.reset();
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-                attendanceForm.reset();
-            }
-        });
-
-        hadirSelect.addEventListener('change', (event) => {
-            if (event.target.value === 'false') {
-                kontribusiInput.value = '';
-                kontribusiInput.disabled = true;
-            } else {
-                kontribusiInput.disabled = false;
-            }
-        });
-
-        attendanceForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const namaInput = document.getElementById('nama').value.trim();
-            const hadir = hadirSelect.value === 'true';
-            const kontribusi = kontribusiInput.value.trim();
-            const normalizedNama = namaInput.toLowerCase();
-
-            const member = attendanceData.get(normalizedNama);
-
-            if (!member) {
-                showAlert('Nama yang Anda masukkan tidak terdaftar.');
-                return;
-            }
-
-            if (hadir && kontribusi === '') {
-                showAlert('Kolom kontribusi tidak boleh kosong jika status kehadiran "Hadir".');
-                return;
-            }
-            
-            // Periksa apakah anggota sudah mengisi hari ini
-            const now = new Date();
-            const lastSubmitted = submittedMembers.get(normalizedNama);
-            const oneDay = 24 * 60 * 60 * 1000;
-
-            if (lastSubmitted && (now.getTime() - lastSubmitted < oneDay)) {
-                const remainingTime = lastSubmitted + oneDay - now.getTime();
-                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                showAlert(`Anda sudah mengisi hari ini. Silakan coba lagi dalam ${hours} jam dan ${minutes} menit.`);
-                return;
-            }
-            
-            // Update data anggota
-            member.hadir = hadir;
-            member.kontribusi = hadir ? kontribusi : '';
-            member.timestamp = now.getTime(); // Simpan waktu pengisian
-
-            // Tandai anggota sudah submit hari ini
-            submittedMembers.set(normalizedNama, now.getTime());
-
-            // Save data to localStorage
-            saveData();
-
-            // Perbarui tampilan tabel
-            renderTable();
-
-            // Kirim ke Discord
-            sendToDiscord(member);
-
-            // Reset formulir dan tutup modal
-            attendanceForm.reset();
-            modal.style.display = 'none';
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeAttendance();
-            renderTable();
-            createParticles();
-            // Ensure kontribusi input is initially not disabled
-            kontribusiInput.disabled = false;
-        });
-        
-        function createParticles() {
-            const total = 40;
-            for (let i = 0; i < total; i++) {
-                let star = document.createElement("div");
-                star.className = "particle";
-                let size = Math.random() * 2 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                document.body.appendChild(star);
-            }
-        }
     </script>
+
 </body>
 </html>
