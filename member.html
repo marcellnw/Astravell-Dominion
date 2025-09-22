@@ -82,29 +82,39 @@
             z-index: 100;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             animation: slideInDown 0.8s ease-out;
+            
+            /* Grid layout for precise positioning */
+            display: grid;
+            grid-template-areas: "logo nav";
+            grid-template-columns: 1fr auto;
+            align-items: center;
         }
-
         header .logo {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.8rem;
+            font-size: 1.2rem; /* Reduced font size */
             font-weight: 700;
             color: #CE9B01;
             display: flex;
             align-items: center;
-            text-align: center;
-            margin-right: auto; /* Push logo to the left on larger screens */
+            grid-area: logo; /* Position in the logo grid area */
+            text-align: left;
         }
         header .logo svg {
             margin-right: 10px;
             fill: #CE9B01;
-            width: 30px;
-            height: 30px;
+            width: 25px; /* Reduced SVG size */
+            height: 25px;
             animation: pulsate 2s infinite;
         }
-
+        header nav {
+            grid-area: nav;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
         .back-link {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+            font-size: 0.9rem; /* Reduced font size */
             font-weight: 600;
             color: #FFFFFF;
             text-decoration: none;
@@ -117,6 +127,13 @@
         .back-link:hover {
             background-color: #CE9B01;
             color: #000080;
+        }
+
+        .header-particles {
+            width: 50px; /* Smaller container for particles */
+            height: 50px;
+            position: relative;
+            z-index: 1;
         }
 
         /* Main Content */
@@ -276,15 +293,21 @@
         @media (max-width: 768px) {
             header {
                 padding: 1rem;
-                flex-direction: column;
+                grid-template-areas: 
+                    "logo nav"
+                    ". .";
+                grid-template-columns: 1fr auto;
             }
             header .logo {
-                font-size: 1.5rem;
-                justify-content: center;
-                margin-bottom: 1rem;
+                font-size: 1rem;
+            }
+            header .logo svg {
+                width: 20px;
+                height: 20px;
             }
             .back-link {
-                margin-top: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
             }
             h1 {
                 font-size: 2.5rem;
@@ -316,7 +339,10 @@
             </svg>
             Astravell Dominion
         </div>
-        <a href="index.html" class="back-link">Kembali</a>
+        <nav>
+            <a href="index.html" class="back-link">Kembali</a>
+            <div id="header-particles-js" class="header-particles"></div>
+        </nav>
     </header>
 
     <main>
@@ -542,7 +568,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
-        /* Particles.js Initialization */
+        /* Particles.js Initialization for the main background */
         particlesJS('particles-js', {
             "particles": {
                 "number": {
