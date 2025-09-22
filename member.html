@@ -73,8 +73,9 @@
             background-color: rgba(0, 0, 128, 0.8);
             color: #FFFFFF;
             padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-areas: "logo nav";
+            grid-template-columns: 1fr auto;
             align-items: center;
             border-bottom: 2px solid #CE9B01;
             position: sticky;
@@ -82,27 +83,21 @@
             z-index: 100;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             animation: slideInDown 0.8s ease-out;
-            
-            /* Grid layout for precise positioning */
-            display: grid;
-            grid-template-areas: "logo nav";
-            grid-template-columns: 1fr auto;
-            align-items: center;
         }
         header .logo {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.2rem; /* Reduced font size */
+            font-size: 1.2rem;
             font-weight: 700;
             color: #CE9B01;
             display: flex;
             align-items: center;
-            grid-area: logo; /* Position in the logo grid area */
+            grid-area: logo;
             text-align: left;
         }
         header .logo svg {
             margin-right: 10px;
             fill: #CE9B01;
-            width: 25px; /* Reduced SVG size */
+            width: 25px;
             height: 25px;
             animation: pulsate 2s infinite;
         }
@@ -114,7 +109,7 @@
         }
         .back-link {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem; /* Reduced font size */
+            font-size: 0.9rem;
             font-weight: 600;
             color: #FFFFFF;
             text-decoration: none;
@@ -123,17 +118,19 @@
             border-radius: 5px;
             transition: background-color 0.3s, color 0.3s;
         }
-
         .back-link:hover {
             background-color: #CE9B01;
             color: #000080;
         }
-
-        .header-particles {
-            width: 50px; /* Smaller container for particles */
-            height: 50px;
-            position: relative;
-            z-index: 1;
+        .three-dots-icon {
+            fill: #CE9B01;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .three-dots-icon:hover {
+            transform: scale(1.1);
         }
 
         /* Main Content */
@@ -181,98 +178,102 @@
             text-align: center;
         }
         
-        /* Member List Styles */
-        .member-list {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
+        /* Member Table Styles */
+        .member-table-container {
             padding: 0 2rem;
+            overflow-x: auto;
         }
-        
-        .member-card {
+
+        .member-table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
             background-color: rgba(0, 0, 128, 0.9);
-            padding: 1.5rem;
-            border-left: 6px solid #CE9B01;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 600px;
             text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .member-table th, .member-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(206, 155, 1, 0.5);
+        }
+
+        .member-table th {
+            font-family: 'Cinzel Decorative', serif;
+            font-weight: 700;
+            color: #CE9B01;
+            text-transform: uppercase;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 128, 0.95);
+        }
+
+        .member-table tbody tr {
+            transition: background-color 0.3s ease, transform 0.3s ease;
             animation: slideInUp 0.8s ease-out forwards;
             opacity: 0;
         }
-        /* Sequential animation for each card */
-        .member-card:nth-child(1) { animation-delay: 0.1s; }
-        .member-card:nth-child(2) { animation-delay: 0.2s; }
-        .member-card:nth-child(3) { animation-delay: 0.3s; }
-        .member-card:nth-child(4) { animation-delay: 0.4s; }
-        .member-card:nth-child(5) { animation-delay: 0.5s; }
-        .member-card:nth-child(6) { animation-delay: 0.6s; }
-        .member-card:nth-child(7) { animation-delay: 0.7s; }
-        .member-card:nth-child(8) { animation-delay: 0.8s; }
-        .member-card:nth-child(9) { animation-delay: 0.9s; }
-        .member-card:nth-child(10) { animation-delay: 1.0s; }
-        .member-card:nth-child(11) { animation-delay: 1.1s; }
-        .member-card:nth-child(12) { animation-delay: 1.2s; }
-        .member-card:nth-child(13) { animation-delay: 1.3s; }
-        .member-card:nth-child(14) { animation-delay: 1.4s; }
-        .member-card:nth-child(15) { animation-delay: 1.5s; }
-        .member-card:nth-child(16) { animation-delay: 1.6s; }
-        .member-card:nth-child(17) { animation-delay: 1.7s; }
-        .member-card:nth-child(18) { animation-delay: 1.8s; }
-        .member-card:nth-child(19) { animation-delay: 1.9s; }
-        .member-card:nth-child(20) { animation-delay: 2.0s; }
-        .member-card:nth-child(21) { animation-delay: 2.1s; }
-        .member-card:nth-child(22) { animation-delay: 2.2s; }
-        .member-card:nth-child(23) { animation-delay: 2.3s; }
-        .member-card:nth-child(24) { animation-delay: 2.4s; }
-        .member-card:nth-child(25) { animation-delay: 2.5s; }
-        .member-card:nth-child(26) { animation-delay: 2.6s; }
-        .member-card:nth-child(27) { animation-delay: 2.7s; }
-        .member-card:nth-child(28) { animation-delay: 2.8s; }
-        .member-card:nth-child(29) { animation-delay: 2.9s; }
-        .member-card:nth-child(30) { animation-delay: 3.0s; }
-        .member-card:nth-child(31) { animation-delay: 3.1s; }
-        .member-card:nth-child(32) { animation-delay: 3.2s; }
-        .member-card:nth-child(33) { animation-delay: 3.3s; }
-        .member-card:nth-child(34) { animation-delay: 3.4s; }
-        .member-card:nth-child(35) { animation-delay: 3.5s; }
-        .member-card:nth-child(36) { animation-delay: 3.6s; }
-        .member-card:nth-child(37) { animation-delay: 3.7s; }
-        .member-card:nth-child(38) { animation-delay: 3.8s; }
-        .member-card:nth-child(39) { animation-delay: 3.9s; }
-        .member-card:nth-child(40) { animation-delay: 4.0s; }
-        .member-card:nth-child(41) { animation-delay: 4.1s; }
-        .member-card:nth-child(42) { animation-delay: 4.2s; }
-        .member-card:nth-child(43) { animation-delay: 4.3s; }
-        .member-card:nth-child(44) { animation-delay: 4.4s; }
-        .member-card:nth-child(45) { animation-delay: 4.5s; }
-        .member-card:nth-child(46) { animation-delay: 4.6s; }
-        .member-card:nth-child(47) { animation-delay: 4.7s; }
-        .member-card:nth-child(48) { animation-delay: 4.8s; }
-        .member-card:nth-child(49) { animation-delay: 4.9s; }
-        .member-card:nth-child(50) { animation-delay: 5.0s; }
-        .member-card:nth-child(51) { animation-delay: 5.1s; }
-
-        .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        .member-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .member-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .member-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .member-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .member-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+        .member-table tbody tr:nth-child(6) { animation-delay: 0.6s; }
+        .member-table tbody tr:nth-child(7) { animation-delay: 0.7s; }
+        .member-table tbody tr:nth-child(8) { animation-delay: 0.8s; }
+        .member-table tbody tr:nth-child(9) { animation-delay: 0.9s; }
+        .member-table tbody tr:nth-child(10) { animation-delay: 1.0s; }
+        .member-table tbody tr:nth-child(11) { animation-delay: 1.1s; }
+        .member-table tbody tr:nth-child(12) { animation-delay: 1.2s; }
+        .member-table tbody tr:nth-child(13) { animation-delay: 1.3s; }
+        .member-table tbody tr:nth-child(14) { animation-delay: 1.4s; }
+        .member-table tbody tr:nth-child(15) { animation-delay: 1.5s; }
+        .member-table tbody tr:nth-child(16) { animation-delay: 1.6s; }
+        .member-table tbody tr:nth-child(17) { animation-delay: 1.7s; }
+        .member-table tbody tr:nth-child(18) { animation-delay: 1.8s; }
+        .member-table tbody tr:nth-child(19) { animation-delay: 1.9s; }
+        .member-table tbody tr:nth-child(20) { animation-delay: 2.0s; }
+        .member-table tbody tr:nth-child(21) { animation-delay: 2.1s; }
+        .member-table tbody tr:nth-child(22) { animation-delay: 2.2s; }
+        .member-table tbody tr:nth-child(23) { animation-delay: 2.3s; }
+        .member-table tbody tr:nth-child(24) { animation-delay: 2.4s; }
+        .member-table tbody tr:nth-child(25) { animation-delay: 2.5s; }
+        .member-table tbody tr:nth-child(26) { animation-delay: 2.6s; }
+        .member-table tbody tr:nth-child(27) { animation-delay: 2.7s; }
+        .member-table tbody tr:nth-child(28) { animation-delay: 2.8s; }
+        .member-table tbody tr:nth-child(29) { animation-delay: 2.9s; }
+        .member-table tbody tr:nth-child(30) { animation-delay: 3.0s; }
+        .member-table tbody tr:nth-child(31) { animation-delay: 3.1s; }
+        .member-table tbody tr:nth-child(32) { animation-delay: 3.2s; }
+        .member-table tbody tr:nth-child(33) { animation-delay: 3.3s; }
+        .member-table tbody tr:nth-child(34) { animation-delay: 3.4s; }
+        .member-table tbody tr:nth-child(35) { animation-delay: 3.5s; }
+        .member-table tbody tr:nth-child(36) { animation-delay: 3.6s; }
+        .member-table tbody tr:nth-child(37) { animation-delay: 3.7s; }
+        .member-table tbody tr:nth-child(38) { animation-delay: 3.8s; }
+        .member-table tbody tr:nth-child(39) { animation-delay: 3.9s; }
+        .member-table tbody tr:nth-child(40) { animation-delay: 4.0s; }
+        .member-table tbody tr:nth-child(41) { animation-delay: 4.1s; }
+        .member-table tbody tr:nth-child(42) { animation-delay: 4.2s; }
+        .member-table tbody tr:nth-child(43) { animation-delay: 4.3s; }
+        .member-table tbody tr:nth-child(44) { animation-delay: 4.4s; }
+        .member-table tbody tr:nth-child(45) { animation-delay: 4.5s; }
+        .member-table tbody tr:nth-child(46) { animation-delay: 4.6s; }
+        .member-table tbody tr:nth-child(47) { animation-delay: 4.7s; }
+        .member-table tbody tr:nth-child(48) { animation-delay: 4.8s; }
+        .member-table tbody tr:nth-child(49) { animation-delay: 4.9s; }
+        .member-table tbody tr:nth-child(50) { animation-delay: 5.0s; }
+        .member-table tbody tr:nth-child(51) { animation-delay: 5.1s; }
+        .member-table tbody tr:hover {
+            background-color: rgba(0, 0, 128, 0.8);
+            transform: scale(1.01);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .member-card h3 {
-            font-family: 'Cinzel Decorative', serif;
+        .member-table td:first-child {
             color: #CE9B01;
-            margin: 0;
-            font-size: 1.4rem;
-        }
-        
-        .member-card p {
-            color: #DDDDDD;
-            margin: 0.2rem 0;
-            font-size: 1rem;
-            text-align: left;
+            font-weight: bold;
         }
 
         /* Footer */
@@ -294,8 +295,7 @@
             header {
                 padding: 1rem;
                 grid-template-areas: 
-                    "logo nav"
-                    ". .";
+                    "logo nav";
                 grid-template-columns: 1fr auto;
             }
             header .logo {
@@ -322,8 +322,11 @@
             section {
                 padding: 1.5rem 0;
             }
-            .member-list {
+            .member-table-container {
                 padding: 0 1rem;
+            }
+            .member-table th, .member-table td {
+                padding: 1rem;
             }
         }
     </style>
@@ -341,7 +344,11 @@
         </div>
         <nav>
             <a href="index.html" class="back-link">Kembali</a>
-            <div id="header-particles-js" class="header-particles"></div>
+            <svg class="three-dots-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="19" cy="12" r="2"/>
+                <circle cx="5" cy="12" r="2"/>
+            </svg>
         </nav>
     </header>
 
@@ -353,211 +360,273 @@
 
         <section id="member-list">
             <h2>Daftar Anggota</h2>
-            <div class="member-list">
-                <div class="member-card">
-                    <h3>1. Dyraa Zyyy</h3>
-                    <p>Ras: Maredian</p>
-                </div>
-                <div class="member-card">
-                    <h3>2. Dward5612</h3>
-                    <p>Ras: Graveth</p>
-                </div>
-                <div class="member-card">
-                    <h3>3. Khairil20101</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>4. ZEVL3371</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>5. MurindarJD</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>6. Malll2528</h3>
-                    <p>Ras: Graveth</p>
-                </div>
-                <div class="member-card">
-                    <h3>7. MyFrad</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>8. AzazelKaisen</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>9. Sofftya</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>10. Simpasini123</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>11. Nohanniiel</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>12. Myiyutrara</h3>
-                    <p>Ras: Meredian</p>
-                </div>
-                <div class="member-card">
-                    <h3>13. FuraChan7332</h3>
-                    <p>Ras: Meredian</p>
-                </div>
-                <div class="member-card">
-                    <h3>14. MegaStars3545</h3>
-                    <p>Ras: Maredian</p>
-                </div>
-                <div class="member-card">
-                    <h3>15. MotionAryXry</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>16. KayzerVerst</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>17. Kafein2912</h3>
-                    <p>Ras: Graveth</p>
-                </div>
-                <div class="member-card">
-                    <h3>18. FossJett28</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>19. Nishrey21</h3>
-                    <p>Ras: Graveth</p>
-                </div>
-                <div class="member-card">
-                    <h3>20. Oyyfann</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>21. Kaelmieayam</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>22. Orangxsad163</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>23. aryaanwt</h3>
-                    <p>Ras: Graveth</p>
-                </div>
-                <div class="member-card">
-                    <h3>24. VivanXp14</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>25. adeyidd</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>26. ReenaZrkn</h3>
-                    <p>Ras: Meredian</p>
-                </div>
-                <div class="member-card">
-                    <h3>27. Girinn24</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>28. TerPalMC</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>29. ABYSSLIME</h3>
-                    <p>Ras: Graveth</p>
-                </div>
-                <div class="member-card">
-                    <h3>30. IzreyZrkn</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>31. Primmbee</h3>
-                    <p>Ras: Maredian</p>
-                </div>
-                <div class="member-card">
-                    <h3>32. QueennnzMe</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>33. CelCelxyh</h3>
-                    <p>Ras: Jawa</p>
-                </div>
-                <div class="member-card">
-                    <h3>34. CumiIsSquid</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>35. Selyaku9017</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>36. Nohanniiel</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>37. flow15k</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>38. Sayurrayy</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>39. Karrii556</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>40. Kairuu6095</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>41. Boyiqbal123</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>42. Kainara1964</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>43. Iotaaa6420</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>44. ArinnLmn12</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>45. Melvunnn</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>46. iwak30</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>47. Alikaputri4</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>48. Kavieee</h3>
-                    <p>Ras: Euria</p>
-                </div>
-                <div class="member-card">
-                    <h3>49. Ayassee6864</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>50. Alikaputri4</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
-                <div class="member-card">
-                    <h3>51. MizaeDx</h3>
-                    <p>Ras: Tidak diketahui</p>
-                </div>
+            <div class="member-table-container">
+                <table class="member-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Ras</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Dyraa Zyyy</td>
+                            <td>Maredian</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Dward5612</td>
+                            <td>Graveth</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Khairil20101</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>ZEVL3371</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>MurindarJD</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Malll2528</td>
+                            <td>Graveth</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>MyFrad</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>AzazelKaisen</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Sofftya</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Simpasini123</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>Nohanniiel</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>Myiyutrara</td>
+                            <td>Meredian</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>FuraChan7332</td>
+                            <td>Meredian</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>MegaStars3545</td>
+                            <td>Maredian</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>MotionAryXry</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>KayzerVerst</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>Kafein2912</td>
+                            <td>Graveth</td>
+                        </tr>
+                        <tr>
+                            <td>18</td>
+                            <td>FossJett28</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>Nishrey21</td>
+                            <td>Graveth</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>Oyyfann</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>Kaelmieayam</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>22</td>
+                            <td>Orangxsad163</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>23</td>
+                            <td>aryaanwt</td>
+                            <td>Graveth</td>
+                        </tr>
+                        <tr>
+                            <td>24</td>
+                            <td>VivanXp14</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>25</td>
+                            <td>adeyidd</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>ReenaZrkn</td>
+                            <td>Meredian</td>
+                        </tr>
+                        <tr>
+                            <td>27</td>
+                            <td>Girinn24</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>28</td>
+                            <td>TerPalMC</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>29</td>
+                            <td>ABYSSLIME</td>
+                            <td>Graveth</td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>IzreyZrkn</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>31</td>
+                            <td>Primmbee</td>
+                            <td>Maredian</td>
+                        </tr>
+                        <tr>
+                            <td>32</td>
+                            <td>QueennnzMe</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>33</td>
+                            <td>CelCelxyh</td>
+                            <td>Jawa</td>
+                        </tr>
+                        <tr>
+                            <td>34</td>
+                            <td>CumiIsSquid</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>35</td>
+                            <td>Selyaku9017</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>36</td>
+                            <td>Nohanniiel</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>37</td>
+                            <td>flow15k</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>38</td>
+                            <td>Sayurrayy</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>39</td>
+                            <td>Karrii556</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>Kairuu6095</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>41</td>
+                            <td>Boyiqbal123</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>42</td>
+                            <td>Kainara1964</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>43</td>
+                            <td>Iotaaa6420</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>44</td>
+                            <td>ArinnLmn12</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>45</td>
+                            <td>Melvunnn</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>iwak30</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>47</td>
+                            <td>Alikaputri4</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>48</td>
+                            <td>Kavieee</td>
+                            <td>Euria</td>
+                        </tr>
+                        <tr>
+                            <td>49</td>
+                            <td>Ayassee6864</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>50</td>
+                            <td>Alikaputri4</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                        <tr>
+                            <td>51</td>
+                            <td>MizaeDx</td>
+                            <td>Tidak diketahui</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
