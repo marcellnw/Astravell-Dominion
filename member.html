@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astravell Dominion - Daftar Anggota</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000080; /* Navy Blue */
+            color: #FFFFFF; /* White */
+            overflow-x: hidden; /* Prevent horizontal scroll from particles */
+            position: relative;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Place behind content */
+            background-color: #000080; /* Fallback for browsers that don't support particles */
+            animation: float 20s ease-in-out infinite;
+        }
+
+        /* Keyframes for animations */
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 5px #CE9B01; }
+            50% { text-shadow: 2px 2px 8px rgba(0,0,0,0.7), 0 0 20px #CE9B01, 0 0 30px #CE9B01; }
+            100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 5px #CE9B01; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(0, 0, 128, 0.8);
+            color: #FFFFFF;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid #CE9B01;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        header .logo {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #CE9B01;
+            display: flex;
+            align-items: center;
+        }
+        header .logo svg {
+            margin-right: 10px;
+            fill: #CE9B01;
+            width: 30px;
+            height: 30px;
+            animation: pulsate 2s infinite;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            background-color: rgba(0, 0, 77, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+        section:nth-child(even) { animation-delay: 0.3s; }
+        section:nth-child(odd) { animation-delay: 0.6s; }
+
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3.5rem;
+            color: #CE9B01;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: scaleIn 1s ease-out, shimmer 3s infinite;
+        }
+
+        h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            color: #CE9B01;
+            border-bottom: 3px solid #CE9B01;
+            padding-bottom: 0.7rem;
+            margin: 0 2rem 2rem 2rem;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        /* Member List Styles */
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 0 2rem;
+        }
+        
+        .member-card {
+            background-color: rgba(0, 0, 128, 0.9);
+            padding: 1.5rem;
+            border-left: 6px solid #CE9B01;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 600px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .member-card h3 {
+            font-family: 'Cinzel Decorative', serif;
+            color: #CE9B01;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .member-card p {
+            color: #DDDDDD;
+            margin: 0.2rem 0;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #00004d;
+            border-top: 2px solid #CE9B01;
+            color: #DDDDDD;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 1s;
+            opacity: 0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: nowrap;
+                justify-content: center; /* Center the logo on mobile */
+                text-align: center;
+            }
+            header .logo {
+                font-size: 1.5rem;
+                justify-content: center;
+                margin-bottom: 0;
+            }
+            .menu-toggle {
+                display: none; /* No need for menu toggle if there's no nav */
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+                margin: 0 1rem 1.5rem 1rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            section {
+                padding: 1.5rem 0;
+            }
+            .member-list {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <header>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L14.5 7L20 8L16 12.5L17 18L12 15.5L7 18L8 12.5L4 8L9.5 7L12 2Z"/>
+            </svg>
+            Astravell Dominion
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h1>Selamat Datang di Astravell Dominion</h1>
+            <p>Jurnal proyek, petualangan, dan pencapaian kami.</p>
+        </section>
+
+        <section id="member-list">
+            <h2>Daftar Anggota</h2>
+            <div class="member-list">
+                <div class="member-card">
+                    <h3>1. Dyraa Zyyy</h3>
+                    <p>Dominion: Maredian</p>
+                </div>
+                <div class="member-card">
+                    <h3>2. Dward5612</h3>
+                    <p>Dominion: Graveth</p>
+                </div>
+                <div class="member-card">
+                    <h3>3. Khairil20101</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>4. ZEVL3371</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>5. MurindarJD</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>6. Malll2528</h3>
+                    <p>Dominion: Graveth</p>
+                </div>
+                <div class="member-card">
+                    <h3>7. MyFrad</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>8. AzazelKaisen</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>9. Sofftya</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>10. Simpasini123</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>11. Nohanniiel</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>12. Myiyutrara</h3>
+                    <p>Dominion: Meredian</p>
+                </div>
+                <div class="member-card">
+                    <h3>13. FuraChan7332</h3>
+                    <p>Dominion: Meredian</p>
+                </div>
+                <div class="member-card">
+                    <h3>14. MegaStars3545</h3>
+                    <p>Dominion: Maredian</p>
+                </div>
+                <div class="member-card">
+                    <h3>15. MotionAryXry</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>16. KayzerVerst</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>17. Kafein2912</h3>
+                    <p>Dominion: Graveth</p>
+                </div>
+                <div class="member-card">
+                    <h3>18. FossJett28</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>19. Nishrey21</h3>
+                    <p>Dominion: Graveth</p>
+                </div>
+                <div class="member-card">
+                    <h3>20. Oyyfann</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>21. Kaelmieayam</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>22. Orangxsad163</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>23. aryaanwt</h3>
+                    <p>Dominion: Graveth</p>
+                </div>
+                <div class="member-card">
+                    <h3>24. VivanXp14</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>25. adeyidd</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>26. ReenaZrkn</h3>
+                    <p>Dominion: Meredian</p>
+                </div>
+                <div class="member-card">
+                    <h3>27. Girinn24</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>28. TerPalMC</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>29. ABYSSLIME</h3>
+                    <p>Dominion: Graveth</p>
+                </div>
+                <div class="member-card">
+                    <h3>30. IzreyZrkn</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>31. Primmbee</h3>
+                    <p>Dominion: Maredian</p>
+                </div>
+                <div class="member-card">
+                    <h3>32. QueennnzMe</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>33. CelCelxyh</h3>
+                    <p>Dominion: Jawa</p>
+                </div>
+                <div class="member-card">
+                    <h3>34. CumiIsSquid</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>35. Selyaku9017</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>36. Nohanniiel</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>37. flow15k</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>38. Sayurrayy</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>39. Karrii556</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>40. Kairuu6095</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>41. Boyiqbal123</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>42. Kainara1964</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>43. Iotaaa6420</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>44. ArinnLmn12</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>45. Melvunnn</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>46. iwak30</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>47. Alikaputri4</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>48. Kavieee</h3>
+                    <p>Dominion: Euria</p>
+                </div>
+                <div class="member-card">
+                    <h3>49. Ayassee6864</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>50. Alikaputri4</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+                <div class="member-card">
+                    <h3>51. MizaeDx</h3>
+                    <p>Dominion: Tidak diketahui</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Astravell Dominion. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        /* Particles.js Initialization */
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#CE9B01" /* Gold particles */
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#CE9B01"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#CE9B01", /* Gold lines */
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+    </script>
+
+</body>
+  </html>
+  q
