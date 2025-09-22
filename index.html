@@ -592,4 +592,15 @@
         });
 
         // Close mobile nav when a link is clicked
-        document.querySelectorAll('#main-nav a').forEach(item => 
+        document.querySelectorAll('#main-nav a').forEach(item => {
+            item.addEventListener('click', function() {
+                var nav = document.getElementById('main-nav');
+                if (nav.classList.contains('open')) {
+                    nav.classList.remove('open');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
