@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astravell Dominion</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Global Styles */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #000080; /* Navy Blue */
@@ -26,6 +26,51 @@
             left: 0;
             z-index: -1; /* Place behind content */
             background-color: #000080; /* Fallback for browsers that don't support particles */
+            animation: float 20s ease-in-out infinite;
+        }
+
+        /* Keyframes for new animations */
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes shimmer {
+            0% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 5px #CE9B01; }
+            50% { text-shadow: 2px 2px 8px rgba(0,0,0,0.7), 0 0 20px #CE9B01, 0 0 30px #CE9B01; }
+            100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 5px #CE9B01; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
 
         /* Header */
@@ -44,12 +89,8 @@
             animation: slideInDown 0.8s ease-out;
         }
 
-        @keyframes slideInDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
         header .logo {
+            font-family: 'Cinzel Decorative', serif;
             font-size: 1.8rem;
             font-weight: 700;
             color: #CE9B01; /* Gold */
@@ -61,6 +102,7 @@
             fill: #CE9B01;
             width: 30px;
             height: 30px;
+            animation: pulsate 2s infinite;
         }
 
         nav ul {
@@ -132,26 +174,18 @@
         section:nth-child(even) { animation-delay: 0.3s; }
         section:nth-child(odd) { animation-delay: 0.6s; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         h1 {
+            font-family: 'Cinzel Decorative', serif;
             font-size: 3.5rem;
             color: #CE9B01; /* Gold */
             text-align: center;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            animation: scaleIn 1s ease-out;
-        }
-
-        @keyframes scaleIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            animation: scaleIn 1s ease-out, shimmer 3s infinite;
         }
 
         h2 {
+            font-family: 'Cinzel Decorative', serif;
             font-size: 2.5rem;
             color: #CE9B01; /* Gold */
             border-bottom: 3px solid #CE9B01;
@@ -187,11 +221,6 @@
         }
         .project-card:nth-child(even), .building-card:nth-child(even), .job-card:nth-child(even) { animation-delay: 0.2s; }
         .project-card:nth-child(odd), .building-card:nth-child(odd), .job-card:nth-child(odd) { animation-delay: 0.4s; }
-
-        @keyframes slideInLeft {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
 
         .project-card h3, .building-card h3, .job-card h3 {
             color: #CE9B01; /* Gold */
@@ -231,11 +260,6 @@
         }
         .farm-list li:nth-child(even) { animation-delay: 0.1s; }
         .farm-list li:nth-child(odd) { animation-delay: 0.3s; }
-
-        @keyframes slideInRight {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
 
         /* Footer */
         footer {
@@ -568,15 +592,4 @@
         });
 
         // Close mobile nav when a link is clicked
-        document.querySelectorAll('#main-nav a').forEach(item => {
-            item.addEventListener('click', function() {
-                var nav = document.getElementById('main-nav');
-                if (nav.classList.contains('open')) {
-                    nav.classList.remove('open');
-                }
-            });
-        });
-    </script>
-
-</body>
-</html>
+        document.querySelectorAll('#main-nav a').forEach(item => 
