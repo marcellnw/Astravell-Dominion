@@ -254,14 +254,15 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             header {
-                flex-wrap: wrap;
-                justify-content: center;
-                text-align: center;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                text-align: left;
             }
             header .logo {
-                width: 100%;
-                justify-content: center;
-                margin-bottom: 1rem;
+                width: auto;
+                justify-content: flex-start;
+                font-size: 1.5rem;
+                margin-bottom: 0;
             }
             nav {
                 width: 100%;
@@ -277,19 +278,18 @@
             nav.open {
                 display: flex; /* Show nav when open */
             }
+            .menu-toggle {
+                display: flex;
+                position: static;
+                right: auto;
+                top: auto;
+            }
             nav ul {
                 flex-direction: column;
             }
             nav ul li {
                 margin: 0.5rem 0;
             }
-            .menu-toggle {
-                display: flex; /* Show burger icon on mobile */
-                position: absolute;
-                right: 20px;
-                top: 25px;
-            }
-
             h1 {
                 font-size: 2.5rem;
             }
